@@ -1,10 +1,15 @@
 
 <ion-view title="Categories" style="height:80vh;">
-
+  <ion-nav-bar>
+  <ion-nav-buttons side="center">
+      <button class="right button button-icon icon ion-plus" ng-click="insert()">Click</button>
+  </ion-nav-buttons>
+</ion-nav-bar>
     <ion-content>
-        ketsadfasdfas
-        ketsadfasdfas
-
-        ketsadfasdfasketsadfasdfasketsadfasdfasketsadfasdfasketsadfasdfasketsadfasdfas
+        <ion-list>
+            <ion-item ng-repeat="category in categories" href="#/lists/{{category.id}}">
+               {{category.category_name}}
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view>

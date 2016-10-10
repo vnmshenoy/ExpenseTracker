@@ -123,37 +123,17 @@ expenseTracker.controller("CategoriesController", function($scope, $ionicPlatfor
 
 });
 
-expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $ionicPopup, $cordovaSQLite, $stateParams,ionicDatePicker) {
+expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $ionicPopup, $cordovaSQLite, $stateParams) {
 
     $scope.lists = [];
-//     var ipObj1 = {
-//  callback: function (val) {  //Mandatory
-//    console.log('Return value from the datepicker popup is : ' + val, new Date(val));
-//  },
-//  disabledDates: [            //Optional
-//    new Date(2016, 2, 16),
-//    new Date(2015, 3, 16),
-//    new Date(2015, 4, 16),
-//    new Date(2015, 5, 16),
-//    new Date('Wednesday, August 12, 2015'),
-//    new Date("08-16-2016"),
-//    new Date(1439676000000)
-//  ],
-//  from: new Date(2012, 1, 1), //Optional
-//  to: new Date(2016, 10, 30), //Optional
-//  inputDate: new Date(),      //Optional
-//  mondayFirst: true,          //Optional
-//  disableWeekdays: [0],       //Optional
-//  closeOnSelect: false,       //Optional
-//  templateType: 'popup'       //Optional
-// };
-
     $ionicPlatform.ready(function() {
-        var query = "SELECT id, category_id, todo_list_name FROM tblCategoryItems where category_id = ?";
+        var query = "SELECT id, category_id, category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
+        " where category_id = ?";
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
-                    $scope.lists.push({id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, todo_list_name: res.rows.item(i).todo_list_name});
+                    $scope.lists.push({id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, category_item_name: res.rows.item(i).category_item_name,
+                    category_item_price:res.rows.item(i).category_item_price});
                 }
             }
         }, function (err) {
