@@ -5,11 +5,59 @@
   </ion-nav-buttons>
 </ion-nav-bar>
     <ion-content>
-      <ion-list>
+      <!-- <table> -->
+        <div ng-repeat="list in lists" class="row">
+          <!-- <div class="col-25 item" style="padding-bottom:30px;">
+            {{list.id}}
+          </div> -->
+
+          <div class="col-25 item">
+            {{list.category_item_name}}
+          </div>
+          <div class="col-25 item">
+              {{list.category_item_price}}
+          </div>
+          <div class="col-25 item">
+              {{list.category_item_date}}
+          </div>
+        </div>
+      <!-- </table> -->
+
+
+      <!-- <ion-list>
+
           <ion-item ng-repeat="list in lists" href="#/items/{{list.id}}">
-            asdfasdfa adfasdfsafsadfasdfsadfsadfsad
+
+
+
               <ion-option-button class="button-assertive icon ion-trash-a" ng-click="delete(list)"></ion-option-button>
           </ion-item>
-      </ion-list>
+
+      </ion-list> -->
     </ion-content>
 </ion-view>
+
+<!--
+
+<div ng-controller="MyCtrl">
+  <table>
+    <tr ng-repeat="item in items" ng-switch on="$index % 3">
+      <td ng-switch-when="0">
+        {{items[$index].id}} {{items[$index].name}}
+      </td>
+      <td ng-switch-when="0">
+        <span ng-show="items[$index+1]">
+          {{items[$index+1].id}} {{items[$index+1].name}}
+        </span>
+      </td>
+      <td ng-switch-when="0">
+        <span ng-show="items[$index+2]">
+          {{items[$index+2].id}} {{items[$index+2].name}}
+        </span>
+      </td>
+    </tr>
+  </table>
+</div>
+http://stackoverflow.com/questions/21644493/how-to-split-the-ng-repeat-data-with-three-columns-using-bootstrap/21653981#21653981
+
+-->

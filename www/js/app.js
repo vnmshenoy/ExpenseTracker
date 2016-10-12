@@ -73,7 +73,7 @@ expenseTracker.controller("ConfigController", function($scope, $ionicPlatform, $
               db.transaction(function (tx) {
                   tx.executeSql("DROP TABLE IF EXISTS tblCategories");
                   tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategories (id integer primary key,  category_id integer, category_name text)");
-                  tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategoryItems (id integer primary key, category_id integer, category_item_name text,category_item_price integer,category_item_date string)");
+                  tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategoryItems (id integer primary key, category_item_id integer,category_id integer, category_item_name text,category_item_price integer,category_item_date string)");
                 //  tx.executeSql("CREATE TABLE IF NOT EXISTS tblTodoListItems (id integer primary key, todo_list_id integer, todo_list_item_name text)");
                 //  tx.executeSql("INSERT INTO tblCategories (category_name) VALUES (?)", ["Shopping"]);
                 //  tx.executeSql("INSERT INTO tblCategories (category_name) VALUES (?)", ["Chores"]);
@@ -160,12 +160,12 @@ expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $i
              ]
         })
         .then(function(result) {
-           console.log("name"+$scope.data.listItemName);
+           console.log("name"+$scope.data.listItemName+">>"+$scope.data.listItemPrice);
             if(result !== undefined) {
         console.log("tr"+ $scope.data.listItemName);
                 var query = "INSERT INTO tblCategoryItems (category_id, category_item_name,category_item_price,category_item_date) VALUES (?,?,?,?)";
-                $cordovaSQLite.execute(db, query, [$stateParams.categoryId, result]).then(function(res) {
-                    $scope.lists.push({id: res.insertId, category_id: $stateParams.categoryId, todo_list_name: result});
+                $cordovaSQLite.execute(db, query, [$stateParams.categoryId, $scope.data.listItemName,$scope.data.listItemPrice,$scope.data.listItemDate]).then(function(res) {
+                    $scope.lists.push({id: res.insertId, category_id: $stateParams.categoryId, category_item_name: $scope.data.listItemName,category_item_price:$scope.data.listItemPrice});
                 }, function (err) {
                     console.error(err);
                 });
