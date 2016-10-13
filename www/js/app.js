@@ -71,7 +71,7 @@ expenseTracker.controller("ConfigController", function($scope, $ionicPlatform, $
           } else {
             //  db = openDatabase("websql.db", '1.0', "My WebSQL Database", 2 * 1024 * 1024);
               db.transaction(function (tx) {
-                  tx.executeSql("DROP TABLE IF EXISTS tblCategories");
+                  //tx.executeSql("DROP TABLE IF EXISTS tblCategories");
                   tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategories (id integer primary key,  category_id integer, category_name text)");
                   tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategoryItems (id integer primary key, category_item_id integer,category_id integer, category_item_name text,category_item_price integer,category_item_date string)");
                 //  tx.executeSql("CREATE TABLE IF NOT EXISTS tblTodoListItems (id integer primary key, todo_list_id integer, todo_list_item_name text)");
@@ -94,7 +94,7 @@ expenseTracker.controller("CategoriesController", function($scope, $ionicPlatfor
         $cordovaSQLite.execute(db, query, []).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
-                    $scope.categories.push({id: res.rows.item(i).id, category_name: res.rows.item(i).category_name});
+                    $scope.categories.push({id: res.rows.item(i).id, category_id:res.rows.item(i).category_id,category_name: res.rows.item(i).category_name});
                 }
             }
         }, function (err) {
@@ -126,9 +126,37 @@ expenseTracker.controller("CategoriesController", function($scope, $ionicPlatfor
 expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $ionicPopup, $cordovaSQLite, $stateParams) {
 
     $scope.lists = [];
+  $scope.count=1;
+    $scope.doRefresh = function() {
+      console.log("Refreshed"+$scope.count);
+      i=5*$scope.count++;
+      var query = "SELECT  id, category_id, category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
+      " where category_id = ? LIMIT "+i;
+      $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
+          if(res.rows.length > 0) {
+              for(var i = 0; i < res.rows.length; i++) {
+                  $scope.lists.push({id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, category_item_name: res.rows.item(i).category_item_name,
+                  category_item_price:res.rows.item(i).category_item_price});
+              }
+          }
+          $scope.$broadcast('scroll.refreshComplete');
+      }, function (err) {
+          console.error(err);
+      });
+  //  $http.get('/new-items')
+  //   .success(function(newItems) {
+  //     $scope.items = newItems;
+  //   })
+  //   .finally(function() {
+  //     // Stop the ion-refresher from spinning
+  //     $scope.$broadcast('scroll.refreshComplete');
+  //   });
+ };
     $ionicPlatform.ready(function() {
-        var query = "SELECT id, category_id, category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
-        " where category_id = ?";
+      console.log($scope.count);
+      var i=5*$scope.count;
+        var query = "SELECT  id, category_id, category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
+        " where category_id = ? LIMIT "+i;
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {

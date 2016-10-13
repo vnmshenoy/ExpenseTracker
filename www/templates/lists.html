@@ -5,22 +5,33 @@
   </ion-nav-buttons>
 </ion-nav-bar>
     <ion-content>
+      <ion-refresher
+           pulling-text="Pull to refresh..."
+           on-refresh="doRefresh()">
+        </ion-refresher>
       <!-- <table> -->
-        <div ng-repeat="list in lists" class="row">
+        <!-- <ion-item ng-repeat="list in lists"> -->
           <!-- <div class="col-25 item" style="padding-bottom:30px;">
             {{list.id}}
           </div> -->
+          <div class="row header">
+           <div class="col">Item Name</div>
+            <div class="col">Price</div>
+            <div class="col">Unit</div>
+            <div class="col">Date</div>
+            <div class="col"></div>
+          </div>
 
-          <div class="col-25 item">
-            {{list.category_item_name}}
-          </div>
-          <div class="col-25 item">
-              {{list.category_item_price}}
-          </div>
-          <div class="col-25 item">
-              {{list.category_item_date}}
-          </div>
+          <div class="row" ng-repeat="list in lists">
+            <div class="col">{{list.category_item_name}}</div>
+            <div class="col">{{list.category_item_price}}</div>
+            <div class="col">{{list.category_item_unit}}</div>
+            <div class="col">0</div>
+            <div class="col"><button class="button" ng-click="ctrl.add($index)">Add</button></div>
+        
         </div>
+
+          <!-- </ion-item> -->
       <!-- </table> -->
 
 
