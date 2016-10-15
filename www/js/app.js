@@ -27,6 +27,12 @@ expenseTracker.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "templates/items.html",
             controller: "ItemsController"
         });
+
+        // .state('history', {
+        //     url: "/history/:listId",
+        //     templateUrl: "templates/items.html",
+        //     controller: "ItemsController"
+        // });
     $urlRouterProvider.otherwise('/config');
 });
 
@@ -71,7 +77,7 @@ expenseTracker.controller("ConfigController", function($scope, $ionicPlatform, $
           } else {
             //  db = openDatabase("websql.db", '1.0', "My WebSQL Database", 2 * 1024 * 1024);
               db.transaction(function (tx) {
-                  //tx.executeSql("DROP TABLE IF EXISTS tblCategories");
+              //    tx.executeSql("DROP TABLE IF EXISTS tblCategories");
                   tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategories (id integer primary key,  category_id integer, category_name text)");
                   tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategoryItems (id integer primary key, category_item_id integer,category_id integer, category_item_name text,category_item_price integer,category_item_date string)");
                 //  tx.executeSql("CREATE TABLE IF NOT EXISTS tblTodoListItems (id integer primary key, todo_list_id integer, todo_list_item_name text)");
@@ -90,7 +96,7 @@ expenseTracker.controller("CategoriesController", function($scope, $ionicPlatfor
     $scope.categories = [];
 
     $ionicPlatform.ready(function() {
-        var query = "SELECT id, category_name FROM tblCategories";
+        var query = "SELECT id,category_Id, category_name FROM tblCategories";
         $cordovaSQLite.execute(db, query, []).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
@@ -108,13 +114,27 @@ expenseTracker.controller("CategoriesController", function($scope, $ionicPlatfor
             inputType: 'text'
         })
         .then(function(result) {
+          var cat_id;
             if(result !== undefined) {
-                var query = "INSERT INTO tblCategories (category_id, category_name) VALUES (?,?)";
-                $cordovaSQLite.execute(db, query, [$stateParams.categoryId, result]).then(function(res) {
-                    $scope.categories.push({id: res.insertId, category_id: $stateParams.categoryId, category_name: result});
-                }, function (err) {
-                    console.error(err);
-                });
+                 var query= "select * from  tblCategories ORDER BY category_Id DESC LIMIT 1";
+                 $cordovaSQLite.execute(db, query, []).then(function(res) {
+                     if(res.rows.length <= 0) {
+                          cat_id =  0;
+                        }
+                    else {
+                          cat_id= 1;
+                       }
+                        var queryInsert = "INSERT INTO tblCategories (category_Id, category_name) VALUES (?,?)";
+                        $cordovaSQLite.execute(db, queryInsert, [cat_id,result]).then(function(res) {
+                            $scope.categories.push({id: res.insertId, category_id: cat_id, category_name: result});
+                        }, function (err) {
+                            console.error(err);
+                        });
+
+                 }, function (err) {
+                     console.error(err);
+                 });
+
             } else {
                 console.log("Action not completed");
             }
@@ -124,13 +144,12 @@ expenseTracker.controller("CategoriesController", function($scope, $ionicPlatfor
 });
 
 expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $ionicPopup, $cordovaSQLite, $stateParams) {
-
     $scope.lists = [];
-  $scope.count=1;
+    $scope.count=1;
     $scope.doRefresh = function() {
       console.log("Refreshed"+$scope.count);
       i=5*$scope.count++;
-      var query = "SELECT  id, category_id, category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
+      var query = "SELECT  id, category_id,category_item_id, category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
       " where category_id = ? LIMIT "+i;
       $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
           if(res.rows.length > 0) {
@@ -155,7 +174,7 @@ expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $i
     $ionicPlatform.ready(function() {
       console.log($scope.count);
       var i=5*$scope.count;
-        var query = "SELECT  id, category_id, category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
+        var query = "SELECT  id, category_id, category_item_id,category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
         " where category_id = ? LIMIT "+i;
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
             if(res.rows.length > 0) {
@@ -181,7 +200,6 @@ expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $i
                  text: '<b>Save</b>',
                  type: 'button-positive',
                  onTap: function(e) {
-
                    return $scope.data.listItemName;
                  }
                },
@@ -201,12 +219,9 @@ expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $i
                 console.log("Action not completed");
             }
         });
-    }
-
-
-    // $scope.openDatePicker = function(){
-    //   ionicDatePicker.openDatePicker(ipObj1);
-    // };
+  }
+  //https://codepen.io/VeldMuijz/pen/GJqZqV
+  //http://www.chartjs.org/docs/
 
     $scope.delete = function(item) {
     //var outerquery = "DELETE FROM tblTodoListItems where todo_list_id = ?";
@@ -220,6 +235,9 @@ expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $i
     });
 }
 
+$scope.showHistory = function() {
+console.log("hist");
+}
 });
 
 expenseTracker.controller("ItemsController", function($scope, $ionicPlatform, $ionicPopup, $cordovaSQLite, $stateParams) {
