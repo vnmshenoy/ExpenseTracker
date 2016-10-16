@@ -77,7 +77,8 @@ expenseTracker.controller("ConfigController", function($scope, $ionicPlatform, $
           } else {
             //  db = openDatabase("websql.db", '1.0', "My WebSQL Database", 2 * 1024 * 1024);
               db.transaction(function (tx) {
-              //    tx.executeSql("DROP TABLE IF EXISTS tblCategories");
+              tx.executeSql("DROP TABLE IF EXISTS tblCategories");
+              tx.executeSql("DROP TABLE IF EXISTS tblCategoryItems");
                   tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategories (id integer primary key,  category_id integer, category_name text)");
                   tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategoryItems (id integer primary key, category_item_id integer,category_id integer, category_item_name text,category_item_price integer,category_item_date string)");
                 //  tx.executeSql("CREATE TABLE IF NOT EXISTS tblTodoListItems (id integer primary key, todo_list_id integer, todo_list_item_name text)");
@@ -122,7 +123,8 @@ expenseTracker.controller("CategoriesController", function($scope, $ionicPlatfor
                           cat_id =  0;
                         }
                     else {
-                          cat_id= 1;
+
+                          cat_id=  res.rows[0].category_id+1;
                        }
                         var queryInsert = "INSERT INTO tblCategories (category_Id, category_name) VALUES (?,?)";
                         $cordovaSQLite.execute(db, queryInsert, [cat_id,result]).then(function(res) {
@@ -144,17 +146,18 @@ expenseTracker.controller("CategoriesController", function($scope, $ionicPlatfor
 });
 
 expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $ionicPopup, $cordovaSQLite, $stateParams) {
-    $scope.lists = [];
+
     $scope.count=1;
     $scope.doRefresh = function() {
+        $scope.lists = [];
       console.log("Refreshed"+$scope.count);
-      i=5*$scope.count++;
-      var query = "SELECT  id, category_id,category_item_id, category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
+      i=2*$scope.count++;
+      var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
       " where category_id = ? LIMIT "+i;
       $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
           if(res.rows.length > 0) {
               for(var i = 0; i < res.rows.length; i++) {
-                  $scope.lists.push({id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, category_item_name: res.rows.item(i).category_item_name,
+                  $scope.lists.push({id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, category_item_id: res.rows.item(i).category_item_id,category_item_name: res.rows.item(i).category_item_name,
                   category_item_price:res.rows.item(i).category_item_price});
               }
           }
@@ -172,14 +175,16 @@ expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $i
   //   });
  };
     $ionicPlatform.ready(function() {
-      console.log($scope.count);
-      var i=5*$scope.count;
-        var query = "SELECT  id, category_id, category_item_id,category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
-        " where category_id = ? LIMIT "+i;
+     $scope.lists=[];
+    //  $scope.count=2*$scope.count;
+  //    console.log($scope.count);
+
+        var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
+        " where category_id = ? LIMIT "+3;
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
-                    $scope.lists.push({id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, category_item_name: res.rows.item(i).category_item_name,
+                    $scope.lists.push({id: res.rows.item(i).id, category_id: res.rows.item(i).category_id,category_item_id: res.rows.item(i).category_item_id,category_item_name: res.rows.item(i).category_item_name,
                     category_item_price:res.rows.item(i).category_item_price});
                 }
             }
@@ -200,18 +205,18 @@ expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $i
                  text: '<b>Save</b>',
                  type: 'button-positive',
                  onTap: function(e) {
-                   return $scope.data.listItemName;
+                   return $scope.data.CategoryItemName;
                  }
                },
              ]
         })
         .then(function(result) {
-           console.log("name"+$scope.data.listItemName+">>"+$scope.data.listItemPrice);
+           console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
             if(result !== undefined) {
-        console.log("tr"+ $scope.data.listItemName);
+        console.log("tr"+ $scope.data.CategoryItemName);
                 var query = "INSERT INTO tblCategoryItems (category_id, category_item_name,category_item_price,category_item_date) VALUES (?,?,?,?)";
-                $cordovaSQLite.execute(db, query, [$stateParams.categoryId, $scope.data.listItemName,$scope.data.listItemPrice,$scope.data.listItemDate]).then(function(res) {
-                    $scope.lists.push({id: res.insertId, category_id: $stateParams.categoryId, category_item_name: $scope.data.listItemName,category_item_price:$scope.data.listItemPrice});
+                $cordovaSQLite.execute(db, query, [$stateParams.categoryId, $scope.data.CategoryItemName,$scope.data.CategoryItemPrice,$scope.data.CategoryItemDate]).then(function(res) {
+                    $scope.lists.push({id: res.insertId, category_id: $stateParams.categoryId, category_item_name: $scope.data.CategoryItemName,category_item_price:$scope.data.CategoryItemPrice,category_item_unit:$scope.data.CategoryItemUnit});
                 }, function (err) {
                     console.error(err);
                 });
