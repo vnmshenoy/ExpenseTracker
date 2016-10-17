@@ -148,10 +148,13 @@ expenseTracker.controller("CategoriesController", function($scope, $ionicPlatfor
 expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $ionicPopup, $cordovaSQLite, $stateParams) {
 
     $scope.count=1;
+
     $scope.doRefresh = function() {
-        $scope.lists = [];
+      $scope.lists = [];
+      var i;
       console.log("Refreshed"+$scope.count);
-      i=2*$scope.count++;
+      $scope.count++
+      i=2*$scope.count;
       var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
       " where category_id = ? LIMIT "+i;
       $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
@@ -180,7 +183,7 @@ expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $i
   //    console.log($scope.count);
 
         var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_date  FROM tblCategoryItems"+
-        " where category_id = ? LIMIT "+3;
+        " where category_id = ? LIMIT "+2;
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
