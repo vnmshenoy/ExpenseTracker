@@ -22,17 +22,16 @@ expenseTracker.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'templates/lists.html',
             controller: 'ListsController'
         })
-        .state('items', {
-            url: "/items/:listId",
-            templateUrl: "templates/items.html",
-            controller: "ItemsController"
-        });
-
-        // .state('history', {
-        //     url: "/history/:listId",
+        // .state('items', {
+        //     url: "/items/:listId",
         //     templateUrl: "templates/items.html",
         //     controller: "ItemsController"
-        // });
+        // })
+        .state('itemHistory', {
+            url: "/itemHistory/:itemId",
+            templateUrl: "templates/itemHistory.html",
+            controller: "ItemsController"
+        });
     $urlRouterProvider.otherwise('/config');
 });
 
@@ -121,10 +120,8 @@ expenseTracker.controller("CategoriesController", function($scope, $ionicPlatfor
                  $cordovaSQLite.execute(db, query, []).then(function(res) {
                      if(res.rows.length <= 0) {
                           cat_id =  0;
-                        }
-                    else {
-
-                          cat_id=  res.rows[0].category_id+1;
+                        }  else {
+                          cat_id=  ++res.rows[0].category_id;
                        }
                         var queryInsert = "INSERT INTO tblCategories (category_Id, category_name) VALUES (?,?)";
                         $cordovaSQLite.execute(db, queryInsert, [cat_id,result]).then(function(res) {
@@ -198,6 +195,7 @@ expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $i
 
     $scope.insert = function() {
       $scope.data = {};
+
         $ionicPopup.show({
             title: 'Enter a new TODO list',
             templateUrl: "templates/ItemDetails.html",
@@ -214,20 +212,32 @@ expenseTracker.controller("ListsController", function($scope, $ionicPlatform, $i
              ]
         })
         .then(function(result) {
-           console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
-            if(result !== undefined) {
-        console.log("tr"+ $scope.data.CategoryItemName);
-                var query = "INSERT INTO tblCategoryItems (category_id, category_item_name,category_item_price,category_item_date) VALUES (?,?,?,?)";
-                $cordovaSQLite.execute(db, query, [$stateParams.categoryId, $scope.data.CategoryItemName,$scope.data.CategoryItemPrice,$scope.data.CategoryItemDate]).then(function(res) {
-                    $scope.lists.push({id: res.insertId, category_id: $stateParams.categoryId, category_item_name: $scope.data.CategoryItemName,category_item_price:$scope.data.CategoryItemPrice,category_item_unit:$scope.data.CategoryItemUnit});
-                }, function (err) {
-                    console.error(err);
-                });
-            } else {
-                console.log("Action not completed");
-            }
-        });
-  }
+              var cat_item_id;
+              console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
+              if(result !== undefined){
+                 var query= "select * from  tblCategoryItems ORDER BY category_item_id DESC LIMIT 1";
+                 $cordovaSQLite.execute(db, query, []).then(function(res) {
+                  if(res.rows.length<=0 && res.rows.category_item_id === undefined) {
+                         cat_item_id =  0;
+                       } else {
+                         console.log(cat_item_id);
+                         cat_item_id= ++res.rows[0].category_item_id;
+                       }
+
+                      //console.log("tr"+ $scope.data.CategoryItemName);
+                     var query = "INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,category_item_price,category_item_date) VALUES (?,?,?,?,?)";
+                     $cordovaSQLite.execute(db, query, [$stateParams.categoryId, cat_item_id,$scope.data.CategoryItemName,$scope.data.CategoryItemPrice,$scope.data.CategoryItemDate]).then(function(res) {
+                        $scope.lists.push({id: res.insertId, category_id: $stateParams.categoryId, category_item_id:cat_item_id,category_item_name: $scope.data.CategoryItemName,category_item_price:$scope.data.CategoryItemPrice,category_item_unit:$scope.data.CategoryItemUnit});
+                     }, function (err) {
+                             console.error(err);
+                      });
+
+                      });
+                     } else {
+                         console.log("Action not completed");
+                     }
+  });
+}
   //https://codepen.io/VeldMuijz/pen/GJqZqV
   //http://www.chartjs.org/docs/
 
@@ -251,46 +261,4 @@ console.log("hist");
 expenseTracker.controller("ItemsController", function($scope, $ionicPlatform, $ionicPopup, $cordovaSQLite, $stateParams) {
 
     $scope.items = [];
-
-    $ionicPlatform.ready(function() {
-      //  var query = "SELECT id, todo_list_id, todo_list_item_name FROM tblTodoListItems where todo_list_id = ?";
-        $cordovaSQLite.execute(db, query, [$stateParams.listId]).then(function(res) {
-            if(res.rows.length > 0) {
-                for(var i = 0; i < res.rows.length; i++) {
-                    $scope.items.push({id: res.rows.item(i).id, todo_list_id: res.rows.item(i).todo_list_id, todo_list_item_name: res.rows.item(i).todo_list_item_name});
-                }
-            }
-        }, function (err) {
-            console.error(err);
-        });
-    });
-
-    $scope.insert = function() {
-        $ionicPopup.prompt({
-            title: 'Enter a new TODO list',
-            inputType: 'text'
-        })
-        .then(function(result) {
-            if(result !== undefined) {
-            //    var query = "INSERT INTO tblTodoListItems (todo_list_id, todo_list_item_name) VALUES (?,?)";
-                $cordovaSQLite.execute(db, query, [$stateParams.listId, result]).then(function(res) {
-                    $scope.items.push({id: res.insertId, todo_list_id: $stateParams.listId, todo_list_item_name: result});
-                }, function (err) {
-                    console.error(err);
-                });
-            } else {
-                console.log("Action not completed");
-            }
-        });
-    }
-
-    $scope.delete = function(item) {
-    var query = "DELETE FROM tblTodoListItems where id = ?";
-    $cordovaSQLite.execute(db, query, [item.id]).then(function(res) {
-        $scope.items.splice($scope.items.indexOf(item), 1);
-    }, function (err) {
-        console.error(err);
-    });
-}
-
 });
