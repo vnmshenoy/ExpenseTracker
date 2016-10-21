@@ -1,7 +1,6 @@
 expenseTracker.controller("ListController",
-function($scope, $ionicPlatform, $ionicLoading, $location,$ionicPopup, $ionicHistory, $cordovaSQLite,$stateParams) {
-
-
+function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
+   $ionicHistory, $cordovaSQLite,$stateParams) {
     $ionicPlatform.ready(function() {
       $scope.count=1;
       $scope.doRefresh = function() {
