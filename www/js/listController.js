@@ -1,6 +1,6 @@
 expenseTracker.controller("ListController",
 function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
-   $ionicHistory, $cordovaSQLite,$stateParams) {
+   $ionicHistory, $cordovaSQLite,$stateParams,dateTime) {
     $ionicPlatform.ready(function() {
       $scope.count=1;
       $scope.doRefresh = function() {
@@ -59,6 +59,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
               var cat_item_id;
               console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
               if(result !== undefined){
+                  var date=dateTime.parseDate($scope.data.CategoryItemDate);
                  var query= "select * from  tblCategoryItems ORDER BY category_item_id DESC LIMIT 1";
                  $cordovaSQLite.execute(db, query, []).then(function(res) {
                   if(res.rows.length<=0 && res.rows.category_item_id === undefined) {
@@ -68,8 +69,8 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
                          cat_item_id= ++res.rows[0].category_item_id;
                        }
                      var query = "INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,category_item_price,category_item_date) VALUES (?,?,?,?,?)";
-                     $cordovaSQLite.execute(db, query, [$stateParams.categoryId, cat_item_id,$scope.data.CategoryItemName,$scope.data.CategoryItemPrice,$scope.data.CategoryItemDate]).then(function(res) {
-                        $scope.lists.push({id: res.insertId, category_id: $stateParams.categoryId, category_item_id:cat_item_id,category_item_name: $scope.data.CategoryItemName,category_item_price:$scope.data.CategoryItemPrice,category_item_unit:$scope.data.CategoryItemUnit});
+                     $cordovaSQLite.execute(db, query, [$stateParams.categoryId, cat_item_id,$scope.data.CategoryItemName,$scope.data.CategoryItemPrice,date]).then(function(res) {
+                        $scope.lists.push({id: res.insertId, category_id: $stateParams.categoryId, category_item_id:cat_item_id,category_item_name: $scope.data.CategoryItemName,category_item_price:$scope.data.CategoryItemPrice,category_item_unit:$scope.data.CategoryItemUnit,category_item_date:date});
                      }, function (err) {
                              console.error(err);
                       });
