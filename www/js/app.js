@@ -21,6 +21,11 @@ expenseTracker.config(function($stateProvider, $urlRouterProvider) {
             url: '/lists/:categoryId',
             templateUrl: 'templates/lists.html',
             controller: 'ListController'
+        })
+        .state('itemHistory', {
+            url: '/itemHistory/:itemName',
+            templateUrl: 'templates/itemHistory.html',
+            controller: 'ItemHistoryController'
         });
     $urlRouterProvider.otherwise('/config');
 });

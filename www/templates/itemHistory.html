@@ -1,1 +1,14 @@
- Content<input ng-model="data.CategoryItemName" type="text"></input>
+<ion-view title="ItemHistory" style="height:80vh;">
+  <ion-nav-bar>
+  <ion-nav-buttons side="center">
+      <button class="right button button-icon icon ion-plus" ng-click="insert()">Click</button>
+  </ion-nav-buttons>
+</ion-nav-bar>
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="category in categories" href="#/lists/{{category.id}}">
+      {{category.category_id}} {{category.category_name}}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
