@@ -13,22 +13,19 @@ $stateParams) {
         " GROUP BY strftime('%m', category_item_date)";
 
           $cordovaSQLite.execute(db, query).then(function(res) {
-              if(res.rows.length > 0) {
-                $scope.itemDetails.push({id: res.rows.item(i).id, cost: res.rows[0].cost,
-                  month: res.rows[0].month});
+            var resultRows=[];
+              if(res!=null && res!=undefined){
+                  resultRows = res.rows;
+              }
+              if(resultRows.length > 0) {
+                for(var i=0;i<resultRows.length;i++){
+                  $scope.itemDetails.push({id: resultRows.item(i).id, name:$stateParams.itemName ,cost: resultRows[i].cost,
+                    month: resultRows[i].month});
 
+                }
               }
           }, function (err) {
               console.error(err);
           });
-
-
-
-
-
-
-
-
-
         });
       });
