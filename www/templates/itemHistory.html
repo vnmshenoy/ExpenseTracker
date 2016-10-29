@@ -1,20 +1,30 @@
-<ion-view title="ItemHistory" style="height:80vh;">
+<ion-view title="ItemHistory" style="height:180vh;">
   <ion-nav-bar>
   <ion-nav-buttons side="center">
       <button class="right button button-icon icon ion-plus" ng-click="insert()">Click</button>
   </ion-nav-buttons>
 </ion-nav-bar>
     <ion-content>
-        <ion-list>
-            <ion-item ng-repeat="item in itemDetails" href="#/lists/{{category.id}}">
-        {{item.name}} {{item.cost}} {{item.month}}
-            </ion-item>
-        </ion-list>
+          <div class="row header">
+           <div class="col">Item Name</div>
+            <div class="col">Price</div>
+            <div class="col">Unit</div>
+            <div class="col">month</div>
+            <div class="col">YEAR</div>
+          </div>
+
+          <div class="row" ng-repeat="item in itemDetails">
+            <div class="col">{{item.name}}</div>
+            <div class="col">{{item.cost}}</div>
+            <div class="col">{{item.unit}}</div>
+            <div class="col">{{item.month}}</div>
+            <div class="col">{{item.year}}</div>
+         </div>
 
 
-        <canvas id="bar" class="chart chart-bar" chart-data="data"
+        <!-- <canvas id="bar" class="chart chart-bar" chart-data="data"
             chart-labels="labels" chart-series="series">
-        </canvas>
+        </canvas> -->
 
     </ion-content>
 </ion-view>
