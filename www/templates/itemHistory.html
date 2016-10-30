@@ -1,10 +1,12 @@
-<ion-view title="ItemHistory" style="height:180vh;">
+<ion-view title="ItemHistory">
   <ion-nav-bar>
   <ion-nav-buttons side="center">
       <button class="right button button-icon icon ion-plus" ng-click="insert()">Click</button>
   </ion-nav-buttons>
 </ion-nav-bar>
     <ion-content>
+
+
           <div class="row header">
            <div class="col">Item Name</div>
             <div class="col">Price</div>
@@ -20,11 +22,15 @@
             <div class="col">{{item.month}}</div>
             <div class="col">{{item.year}}</div>
          </div>
+         <div class="row">
+         <canvas id="bar" class="chart chart-bar" chart-data="data"
+             chart-labels="labels">
+         </canvas>
+       </div>
 
 
-        <!-- <canvas id="bar" class="chart chart-bar" chart-data="data"
-            chart-labels="labels" chart-series="series">
-        </canvas> -->
+
+
 
     </ion-content>
 </ion-view>
