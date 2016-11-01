@@ -40,10 +40,10 @@ function($scope, $ionicPlatform, $ionicLoading, $location, $ionicHistory,
           }, function (err) {
               console.error(err);
           });
-        $scope.labels =chartLabels;
-        $scope.data =chartData;
+      //  $scope.labels =chartLabels;
+      //  $scope.data =chartData;
 
-    //   $scope.labels = ['2006Jan', '2007Jan', '2008Feb','2006Jan', '2007Jan', '2008Feb','2006Jan', '2007Jan', '2008Feb','2006Jan', '2007Jan', '2008Feb'];
-    //  $scope.data= ['700','980','1220','1280','1100','1212','900','980','1220','1320','1200','1212'];
+    $scope.labels = ['2006Jan', '2007Jan', '2008Feb','2000Jan', '2001Jan','2002Feb','2003Feb','2004Feb','2005Feb','2009Feb','2010Feb','2011Feb','2012Feb','2013Feb','2014Feb','2015Feb','2016Feb','2017Feb','2018Feb','2019Feb','2020Feb','2021Feb','2022Feb','2023Feb'];
+   $scope.data= ['700','980','1220','1280','1100','1212','900','980','1220','1320','1200','1212','700','980','1220','1280','1100','1212','900','980','1220','1320','1200','1212'];
         });
       });
