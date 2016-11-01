@@ -37,10 +37,10 @@
     <script src="js/categoriesController.js"></script>
     <script src="js/listController.js"></script>
     <script src="js/itemHistoryController.js"></script>
+    <script src="js/overviewController.js"></script>
     <script src="js/services/dateTimeSvc.js"></script>
     <style>
     table{
-
       width:100%;
     }
   td{
@@ -51,7 +51,9 @@ width:100%;
   <body ng-app="starter">
     <ion-side-menus>
      <ion-side-menu side="left">
-        <a href="#/overView">Overview</a>
+       <div style="margin-top:50px">
+        <a href="#/overview">Overview</a>
+      </div>
     </ion-side-menu>
     <ion-side-menu-content>
     <ion-nav-view></ion-nav-view>

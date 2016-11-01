@@ -31,7 +31,7 @@ expenseTracker.config(function($stateProvider, $urlRouterProvider) {
         .state('overview', {
           url: '/overview',
           templateUrl: 'templates/overview.html',
-          controller: 'ItemHistoryController'
+          controller: 'OverviewController'
       });;
     $urlRouterProvider.otherwise('/config');
 });
