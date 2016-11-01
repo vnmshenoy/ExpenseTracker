@@ -1,4 +1,5 @@
-expenseTracker.controller("OverviewController", function($scope, $ionicPlatform,  $ionicPopup, $cordovaSQLite,$stateParams) {
+expenseTracker.controller("OverviewController", function($scope,
+  $ionicPlatform,  $ionicPopup, $cordovaSQLite,$stateParams,$ionicSideMenuDelegate) {
     $scope.categories = [];
     $ionicPlatform.ready(function() {
         var query = "SELECT id,category_Id, category_name FROM tblCategories";

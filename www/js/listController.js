@@ -1,6 +1,6 @@
 expenseTracker.controller("ListController",
 function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
-   $ionicHistory, $cordovaSQLite,$stateParams,dateTime) {
+   $ionicHistory, $cordovaSQLite,$stateParams,dateTime,$ionicSideMenuDelegate) {
     $ionicPlatform.ready(function() {
       $scope.count=1;
       $scope.doRefresh = function() {
@@ -37,6 +37,10 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
             console.error(err);
         });
     });
+
+    $scope.toggleLeft = function() {
+    $ionicSideMenuDelegate.toggleLeft();
+  }
 
     $scope.insert = function() {
       $scope.data = {};

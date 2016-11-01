@@ -1,5 +1,6 @@
 expenseTracker.controller("ConfigController",
-function($scope, $ionicPlatform, $ionicLoading, $location, $ionicHistory, $cordovaSQLite) {
+function($scope, $ionicPlatform, $ionicLoading, $location, $ionicHistory,
+  $cordovaSQLite,$ionicSideMenuDelegate) {
   $ionicHistory.nextViewOptions({
           disableAnimate: true,
           disableBack: true
