@@ -24,7 +24,7 @@ function($scope, $ionicPlatform, $ionicLoading, $location, $ionicHistory,
               tx.executeSql("DROP TABLE IF EXISTS tblCategories");
               tx.executeSql("DROP TABLE IF EXISTS tblCategoryItems");
                   tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategories (id integer primary key,  category_id integer, category_name text)");
-                  tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategoryItems (id integer primary key, category_item_id integer,category_id integer, category_item_name text,category_item_price integer,category_item_date string)");
+                  tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategoryItems (id integer primary key, category_item_id integer,category_id integer, category_item_name text,category_item_price integer,category_item_date date)");
                 //  tx.executeSql("CREATE TABLE IF NOT EXISTS tblTodoListItems (id integer primary key, todo_list_id integer, todo_list_item_name text)");
                 //  tx.executeSql("INSERT INTO tblCategories (category_name) VALUES (?)", ["Shopping"]);
                 //  tx.executeSql("INSERT INTO tblCategories (category_name) VALUES (?)", ["Chores"]);

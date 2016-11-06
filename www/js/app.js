@@ -28,11 +28,17 @@ expenseTracker.config(function($stateProvider, $urlRouterProvider) {
             controller: 'ItemHistoryController'
         })
 
+        .state('topCategories', {
+            url: '/topCategories',
+            templateUrl: 'templates/topCategories.html',
+            controller: 'TopCategoriesController'
+        })
+
         .state('overview', {
           url: '/overview',
           templateUrl: 'templates/overview.html',
           controller: 'OverviewController'
-      });;
+      });
     $urlRouterProvider.otherwise('/config');
 });
 
