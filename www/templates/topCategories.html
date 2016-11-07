@@ -1,2 +1,18 @@
 hello  asdf
 {{topCategories}}
+<ion-view title="TopCategories">
+  <ion-nav-bar>
+
+  <ion-nav-buttons side="right">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
+ </ion-nav-buttons>
+</ion-nav-bar>
+    <ion-content>
+
+         <div class="row">
+           <canvas id="pie" class="chart chart-pie"
+    chart-data="topLablesData" chart-labels="topLables" chart-click="getDetails" chart-options="topLablesOptions">
+        </canvas>
+       </div>
+    </ion-content>
+</ion-view>

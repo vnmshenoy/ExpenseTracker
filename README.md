@@ -16,3 +16,7 @@ INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,c
 INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,category_item_price,category_item_date) VALUES (?,?,?,?,?)
 
 INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,category_item_price,category_item_date) VALUES (1,1,"Apple",23,"25/02/2015");
+
+
+how to install sqlite on mobile with app
+
