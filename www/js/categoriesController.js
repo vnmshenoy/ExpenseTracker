@@ -1,8 +1,11 @@
 expenseTracker.controller("CategoriesController", function($scope,
    $ionicPlatform,  $ionicPopup, $cordovaSQLite,$stateParams,
-   $ionicSideMenuDelegate) {
+   $ionicSideMenuDelegate,$document) {
     $scope.categories = [];
+    console.log(angular.element($document[0].body).hasClass('menu-open'));
+
     $ionicPlatform.ready(function() {
+      $ionicSideMenuDelegate.toggleLeft();
         var query = "SELECT id,category_Id, category_name FROM tblCategories";
         $cordovaSQLite.execute(db, query, []).then(function(res) {
             if(res.rows.length > 0) {
@@ -30,7 +33,7 @@ expenseTracker.controller("CategoriesController", function($scope,
                  var query= "select * from  tblCategories ORDER BY category_Id DESC LIMIT 1";
                  $cordovaSQLite.execute(db, query, []).then(function(res) {
                      if(res.rows.length <= 0) {
-                          cat_id =  0;
+                          cat_id =  1;
                         }  else {
                           cat_id=  ++res.rows[0].category_id;
                        }

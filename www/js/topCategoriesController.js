@@ -1,7 +1,8 @@
 expenseTracker.controller("TopCategoriesController", function($scope,
    $ionicPlatform,  $ionicPopup, $cordovaSQLite,$stateParams,
-   $ionicSideMenuDelegate) {
+   $ionicSideMenuDelegate,$location) {
     $scope.topCategories = [];
+
     $ionicPlatform.ready(function() {
         $scope.topLables=[];
         $scope.topLablesData=[];
@@ -17,8 +18,7 @@ expenseTracker.controller("TopCategoriesController", function($scope,
               $scope.topLables.push(res.rows.item(i).category_name);
               $scope.topLablesData.push(res.rows.item(i).cost);
               $scope.topLablesOptions.push(res.rows.item(i).category_id);
-
-}
+              }
             }
         }, function (err) {
             console.error(err);
@@ -30,6 +30,18 @@ expenseTracker.controller("TopCategoriesController", function($scope,
 
     $scope.getDetails = function(a,evt) {
     console.log(evt);
+    var query = "SELECT category_Id FROM tblCategories where category_name=?";
+    $cordovaSQLite.execute(db, query, ["kja"]).then(function(res) {
+        if(res.rows.length > 0) {
+          console.log(res);
+          var cat_id=res.rows.item(0).category_id;
+          $location.path('/lists/'+cat_id);
+      //   $state.go("#/lists/0");
+
+        }
+    }, function (err) {
+        console.error(err);
+    });
   }
 
 });
