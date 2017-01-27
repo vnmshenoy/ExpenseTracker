@@ -44,19 +44,19 @@ expenseTracker.config(function($stateProvider, $urlRouterProvider) {
 
 expenseTracker.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
-    db = openDatabase("websql.db", '1.0', "My WebSQL Database", 2 * 1024 * 1024);
-    if(window.cordova && window.cordova.plugins.Keyboard) {
+    db = openDatabase("populated.db", '1.0', "My WebSQL Database", 2 * 1024 * 1024);
+    if(window.cordova) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      //cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 
       // Don't remove this line unless you know what you are doing. It stops the viewport
       // from snapping when text inputs are focused. Ionic handles this internally for
       // a much nicer keyboard experience.
-      cordova.plugins.Keyboard.disableScroll(true);
+  //    cordova.plugins.Keyboard.disableScroll(true);
     }
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
   });
-})
+});
