@@ -5,7 +5,7 @@ expenseTracker.controller("CategoriesController", function($scope,
     console.log(angular.element($document[0].body).hasClass('menu-open'));
 
     $ionicPlatform.ready(function() {
-      $ionicSideMenuDelegate.toggleLeft();
+    //  $ionicSideMenuDelegate.toggleLeft();
         var query = "SELECT id,category_Id, category_name FROM tblCategories";
         $cordovaSQLite.execute(db, query, []).then(function(res) {
             if(res.rows.length > 0) {
@@ -35,7 +35,8 @@ expenseTracker.controller("CategoriesController", function($scope,
                      if(res.rows.length <= 0) {
                           cat_id =  1;
                         }  else {
-                          cat_id=  ++res.rows[0].category_id;
+                          //cat_id=  ++res.rows[0].category_id;
+                          cat_id=  ++res.rows.item(0).category_id;
                        }
                         var queryInsert = "INSERT INTO tblCategories (category_Id, category_name) VALUES (?,?)";
                         $cordovaSQLite.execute(db, queryInsert, [cat_id,result]).then(function(res) {
