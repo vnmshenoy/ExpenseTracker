@@ -70,8 +70,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
                          cat_item_id =  0;
                        } else {
                          console.log(cat_item_id);
-                      //   cat_item_id= ++res.rows[0].category_item_id;
-                          cat_item_id= ++ res.rows.item(0).category_id;
+                         cat_item_id= ++res.rows[0].category_item_id;
                        }
                      var query = "INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,category_item_price,category_item_date) VALUES (?,?,?,?,?)";
                      $cordovaSQLite.execute(db, query, [$stateParams.categoryId, cat_item_id,$scope.data.CategoryItemName,$scope.data.CategoryItemPrice,date]).then(function(res) {
