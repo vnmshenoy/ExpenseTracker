@@ -18,5 +18,29 @@ INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,c
 INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,category_item_price,category_item_date) VALUES (1,1,"Apple",23,"25/02/2015");
 
 
+
+
+
+Sample data
+
+
+  tblCategory
+		  1 coles
+		  2 is
+		  
+
+	tblCategoryItems
+			1 1 bread
+            2 1 butter
+			7 7 muesli
+     		3 2 poha
+			4 2 coconut
+			5 2 achar
+			6 2 masala 
+
+
 how to install sqlite on mobile with app
+
+git quick commands
+	git checkout -- myfile.ext git 
 
