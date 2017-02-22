@@ -1,5 +1,5 @@
 expenseTracker.controller("OverviewController", function($scope,
-  $ionicPlatform,  $ionicPopup, $cordovaSQLite,$stateParams,$ionicSideMenuDelegate,$document) {
+  $ionicPlatform,  $ionicPopup, $cordovaSQLite,$stateParams,$ionicSideMenuDelegate,$document,dateTime) {
     $scope.categories = [];
     //this line below sees if the left menu is open or not.Ideally, when you click// on any
     //of the links like "Overview" on the left menu,it should close left menu and rt pane should take whole
@@ -37,7 +37,6 @@ expenseTracker.controller("OverviewController", function($scope,
              text: '<b>Search</b>',
              type: 'button-positive',
              onTap: function(e) {
-               console.log(e);
               return $scope.data.fromDate;
              }
            }
@@ -48,11 +47,13 @@ expenseTracker.controller("OverviewController", function($scope,
 
       //if(result !== undefined)
       {
-          //   var frmDate=dateTime.parseDate($scope.data.fromDate);
-          //   var toDate=dateTime.parseDate($scope.data.toDate);
-          var query= "SELECT t.category_item_id, tc.category_id,t.category_item_name,t.category_item_price  FROM tblCategories tc join tblCategoryItems t  on tc.category_id = t.category_id where  (select count(*) from tblCategoryItems t2 where t2.category_item_price >= t.category_item_price and t2.category_id = t.category_id) <=2";
-          //   var query= "SELECT t.category_item_id, tc.category_id,t.category_item_name,t.category_item_price  FROM tblCategories tc join tblCategoryItems t  on tc.category_id = t.category_id where (select count(*) from tblCategoryItems t2 where t2.category_item_price > 10) <=2";
-          //   var query= "select * from tblCategoryItems t";
+          var fromDate=dateTime.parseDate($scope.data.fromDate);
+         var toDate=dateTime.parseDate($scope.data.toDate);
+
+    //  var query="SELECT t.category_item_id, tc.category_id,t.category_item_name,t.category_item_price,t.category_item_date  FROM tblCategories tc join tblCategoryItems t  on tc.category_id = t.category_id where  (select count(*) from tblCategoryItems t2 where t2.category_item_price >= t.category_item_price and t2.category_id = t.category_id ) <=2 and t.category_item_date BETWEEN  '2016-01-01'  AND '2016-06-05' " ;
+    var query="SELECT t.category_item_id, tc.category_id,t.category_item_name,t.category_item_price,t.category_item_date  FROM tblCategories tc join tblCategoryItems t  on tc.category_id = t.category_id where  (select count(*) from tblCategoryItems t2 where t2.category_item_price >= t.category_item_price and t2.category_id = t.category_id and t2.category_item_date BETWEEN ' "+fromDate+ " ' AND '"+ toDate +"') <=2" ;
+
+
               $cordovaSQLite.execute(db, query, []).then(function(res) {
               console.log("result is"+res);
           });
