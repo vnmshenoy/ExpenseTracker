@@ -34,6 +34,14 @@ expenseTracker.config(function($stateProvider, $urlRouterProvider) {
             controller: 'TopCategoriesController'
         })
 
+
+        .state('topNCategories', {
+            url: '/topNCategories/:fromDate/:toDate',
+            templateUrl: 'templates/topTenAcrossCats.html',
+          controller: 'TopNCategoriesController'
+        })
+
+
         .state('overview', {
           url: '/overview',
           templateUrl: 'templates/overview.html',

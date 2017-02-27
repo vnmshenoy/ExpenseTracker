@@ -1,3 +1,26 @@
-Enter dates
-Date From <input ng-model="data.fromDate" type="date"> </input>
-Date To<input type="date" ng-model="data.toDate">
+<ion-view title="Top n Across all">
+  <ion-nav-bar>
+  <ion-nav-buttons side="center">
+      <button class="right button button-icon icon ion-plus" ng-click="insert()">Click</button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
+ </ion-nav-buttons>
+</ion-nav-bar>
+    <ion-content>
+      <ion-refresher
+           pulling-text="Pull to refresh..."
+           on-refresh="doRefresh()">
+        </ion-refresher>
+          <div class="row header">
+           <div class="col">Item Name</div>
+            <div class="col">Price</div>
+            <div class="col">Date</div>
+          </div>
+          <div class="row" ng-repeat="cat in topNCategories">
+            <div class="col">{{cat.category_name}}</div>
+            <div class="col">{{cat.category_price}}</div>
+            <div class="col">{{cat.category_date}}</div>
+         </div>
+    </ion-content>
+</ion-view>
