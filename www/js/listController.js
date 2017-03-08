@@ -1,6 +1,6 @@
 expenseTracker.controller("ListController",
 function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
-   $ionicHistory, $cordovaSQLite,$stateParams,dateTime,$ionicSideMenuDelegate) {
+   $ionicHistory, $cordovaSQLite,$stateParams,dateTime,$ionicSideMenuDelegate,$window,dateFilter) {
     $ionicPlatform.ready(function() {
       $scope.count=1;
       $scope.doRefresh = function() {
@@ -85,7 +85,72 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
                      }
   });
 }
+
+$scope.editRecord = function(name,price,unit,date,idOfItem) {
+  $scope.data={};
+  $scope.data.CategoryItemName=name;
+  $scope.data.category_item_id=idOfItem;
+  $scope.data.CategoryItemPrice=price;
+  $scope.data.CategoryItemUnit=unit;
+  $scope.data.CategoryId=unit;
+  //var date1 =new Date(date);
+  //var date2= dateTime.parseDate(date1);
+  //$scope.data.CategoryItemDate =new Date(date);
+  $scope.data.CategoryItemDate =new Date(date);
+
+
+    $ionicPopup.show({
+        title: 'Edit The record',
+        templateUrl: "templates/ItemDetails.html",
+        scope: $scope,
+        buttons: [
+           { text: 'Cancel', onTap: function(e) { return true; } },
+           {
+             text: '<b>Save</b>',
+             type: 'button-positive',
+             onTap: function(e) {
+               return name;
+             }
+           },
+         ]
+    })
+    .then(function(result) {
+          var cat_item_id;
+
+          console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
+          var query = "Update tblCategoryItems SET category_item_name = ?,category_item_price=?,category_item_unit = ?,category_item_date=? where category_item_id =?";
+          $cordovaSQLite.execute(db, query, [name,price,unit,dateTime.parseDate($scope.data.CategoryItemDate),$stateParams.categoryId]).then(function(res) {
+          console.log("success");
+        //  $location.path("/lists/"+idOfItem);
+          $window.location.reload();
+
+          }, function (err) {
+                  console.error(err);
+           });
+
+});
+}
+
+
 $scope.showHistory = function() {
 console.log("hist");
 }
 });
+// .directive(
+//         'dateInput',
+//         function(dateFilter) {
+//             return {
+//                 require: 'ngModel',
+//                 template: '<input type="date"></input>',
+//                 replace: true,
+//                 link: function(scope, elm, attrs, ngModelCtrl) {
+//                     ngModelCtrl.$formatters.unshift(function (modelValue) {
+//                         return dateFilter(modelValue, 'yyyy-MM-dd');
+//                     });
+//
+//                     ngModelCtrl.$parsers.unshift(function(viewValue) {
+//                         return new Date(viewValue);
+//                     });
+//                 },
+//             };
+//     });
