@@ -92,11 +92,12 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
   $scope.data.category_item_id=idOfItem;
   $scope.data.CategoryItemPrice=price;
   $scope.data.CategoryItemUnit=unit;
-  $scope.data.CategoryId=unit;
+  //$scope.data.CategoryId=unit;
   //var date1 =new Date(date);
   //var date2= dateTime.parseDate(date1);
   //$scope.data.CategoryItemDate =new Date(date);
   $scope.data.CategoryItemDate =new Date(date);
+  $scope.showError = false;
 
 
     $ionicPopup.show({
@@ -109,9 +110,26 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
              text: '<b>Save</b>',
              type: 'button-positive',
              onTap: function(e) {
-               return name;
+               $scope.showErrorPrice=false;
+               $scope.showErrorUnit = false;
+               $scope.showErrorDate = false;
+              if(!$scope.data.CategoryItemPrice){
+              //don't allow the user to submit unless he enters price,units and date
+              e.preventDefault();
+              $scope.showErrorPrice = true;
+            }
+
+            if(!$scope.data.CategoryItemUnit){
+              e.preventDefault();
+              $scope.showErrorUnit = true;
              }
-           },
+
+             if(!$scope.data.CategoryItemDate){
+               e.preventDefault();
+               $scope.showErrorDate = true;
+              }
+            }
+           }
          ]
     })
     .then(function(result) {
@@ -119,7 +137,7 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
 
           console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
           var query = "Update tblCategoryItems SET category_item_name = ?,category_item_price=?,category_item_unit = ?,category_item_date=? where category_item_id =?";
-          $cordovaSQLite.execute(db, query, [name,price,unit,dateTime.parseDate($scope.data.CategoryItemDate),$stateParams.categoryId]).then(function(res) {
+          $cordovaSQLite.execute(db, query, [name,price,unit,dateTime.parseDate($scope.data.CategoryItemDate),$scope.data.category_item_id]).then(function(res) {
           console.log("success");
         //  $location.path("/lists/"+idOfItem);
           $window.location.reload();
@@ -136,6 +154,7 @@ $scope.showHistory = function() {
 console.log("hist");
 }
 });
+
 // .directive(
 //         'dateInput',
 //         function(dateFilter) {
