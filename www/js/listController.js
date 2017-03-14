@@ -54,7 +54,24 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
                  text: '<b>Save</b>',
                  type: 'button-positive',
                  onTap: function(e) {
-                   return $scope.data.CategoryItemName;
+                   $scope.showErrorPrice=false;
+                   $scope.showErrorUnit = false;
+                   $scope.showErrorDate = false;
+                  if(!$scope.data.CategoryItemPrice){
+                  //don't allow the user to submit unless he enters price,units and date
+                  e.preventDefault();
+                  $scope.showErrorPrice = true;
+                }
+
+                if(!$scope.data.CategoryItemUnit){
+                  e.preventDefault();
+                  $scope.showErrorUnit = true;
+                 }
+
+                 if(!$scope.data.CategoryItemDate){
+                   e.preventDefault();
+                   $scope.showErrorDate = true;
+                  }
                  }
                },
              ]
@@ -137,7 +154,7 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
 
           console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
           var query = "Update tblCategoryItems SET category_item_name = ?,category_item_price=?,category_item_unit = ?,category_item_date=? where category_item_id =?";
-          $cordovaSQLite.execute(db, query, [name,price,unit,dateTime.parseDate($scope.data.CategoryItemDate),$scope.data.category_item_id]).then(function(res) {
+          $cordovaSQLite.execute(db, query, [$scope.data.CategoryItemName,$scope.data.CategoryItemPrice,$scope.data.CategoryItemUnit,dateTime.parseDate($scope.data.CategoryItemDate),$scope.data.category_item_id]).then(function(res) {
           console.log("success");
         //  $location.path("/lists/"+idOfItem);
           $window.location.reload();
