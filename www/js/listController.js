@@ -72,6 +72,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
                    e.preventDefault();
                    $scope.showErrorDate = true;
                   }
+                  return $scope.data.CategoryItemUnit;
                  }
                },
              ]
