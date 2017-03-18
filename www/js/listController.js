@@ -171,23 +171,36 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
 $scope.showHistory = function() {
 console.log("hist");
 }
-});
 
-// .directive(
-//         'dateInput',
-//         function(dateFilter) {
-//             return {
-//                 require: 'ngModel',
-//                 template: '<input type="date"></input>',
-//                 replace: true,
-//                 link: function(scope, elm, attrs, ngModelCtrl) {
-//                     ngModelCtrl.$formatters.unshift(function (modelValue) {
-//                         return dateFilter(modelValue, 'yyyy-MM-dd');
-//                     });
-//
-//                     ngModelCtrl.$parsers.unshift(function(viewValue) {
-//                         return new Date(viewValue);
-//                     });
-//                 },
-//             };
-//     });
+$scope.deleteRecord = function(id) {
+  $scope.data = {};
+  $scope.data.category_item_id = id;
+    $ionicPopup.show({
+        title: 'Delete record',
+        scope: $scope,
+        buttons: [
+           { text: 'Cancel', onTap: function(e) { return true; } },
+           {
+             text: '<b>Save</b>',
+             type: 'button-positive',
+             onTap: function(e) {
+            return true;
+            }
+           }
+         ]
+    })
+    .then(function(result) {
+          var cat_item_id;
+          var query = "DELETE from tblCategoryItems where category_item_id =?";
+          $cordovaSQLite.execute(db, query, [$scope.data.category_item_id]).then(function(res) {
+          console.log("success");
+        //  $location.path("/lists/"+idOfItem);
+          $window.location.reload();
+
+          }, function (err) {
+                  console.error(err);
+           });
+
+});
+}
+});

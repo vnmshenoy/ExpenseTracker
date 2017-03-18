@@ -22,8 +22,8 @@ function($scope, $ionicPlatform, $ionicLoading, $location, $ionicHistory,
           } else {
             //  db = openDatabase("websql.db", '1.0', "My WebSQL Database", 2 * 1024 * 1024);
               db.transaction(function (tx) {
-            //  tx.executeSql("DROP TABLE IF EXISTS tblCategories");
-            //   tx.executeSql("DROP TABLE IF EXISTS tblCategoryItems");
+    //   tx.executeSql("DROP TABLE IF EXISTS tblCategories");
+      // tx.executeSql("DROP TABLE IF EXISTS tblCategoryItems");
                tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategories (id integer primary key,  category_id integer, category_name text)");
                tx.executeSql("CREATE TABLE IF NOT EXISTS tblCategoryItems (id integer primary key, category_item_id integer,category_id integer, category_item_name text,category_item_price integer,category_item_unit integer, category_item_date date)");
                tx.executeSql("CREATE TABLE IF NOT EXISTS tblTodoListItems (id integer primary key, todo_list_id integer, todo_list_item_name text)");
