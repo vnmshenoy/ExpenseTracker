@@ -105,6 +105,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
 }
 
 $scope.editRecord = function(name,price,unit,date,idOfItem) {
+
   $scope.data={};
   $scope.data.CategoryItemName=name;
   $scope.data.category_item_id=idOfItem;
@@ -116,7 +117,6 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
   //$scope.data.CategoryItemDate =new Date(date);
   $scope.data.CategoryItemDate =new Date(date);
   $scope.showError = false;
-
 
     $ionicPopup.show({
         title: 'Edit The record',
@@ -131,13 +131,14 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
                $scope.showErrorPrice=false;
                $scope.showErrorUnit = false;
                $scope.showErrorDate = false;
-              if(!$scope.data.CategoryItemPrice){
+            if(isInvalidVal($scope.data.CategoryItemPrice))
+              {
               //don't allow the user to submit unless he enters price,units and date
               e.preventDefault();
               $scope.showErrorPrice = true;
             }
 
-            if(!$scope.data.CategoryItemUnit){
+            if(isInvalidVal($scope.data.CategoryItemUnit)){
               e.preventDefault();
               $scope.showErrorUnit = true;
              }
@@ -152,7 +153,6 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
     })
     .then(function(result) {
           var cat_item_id;
-
           console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
           var query = "Update tblCategoryItems SET category_item_name = ?,category_item_price=?,category_item_unit = ?,category_item_date=? where category_item_id =?";
           $cordovaSQLite.execute(db, query, [$scope.data.CategoryItemName,$scope.data.CategoryItemPrice,$scope.data.CategoryItemUnit,dateTime.parseDate($scope.data.CategoryItemDate),$scope.data.category_item_id]).then(function(res) {
@@ -167,6 +167,42 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
 });
 }
 
+function isInvalidVal(val){
+    if(!val){
+        return true;
+      }
+        try{
+         var regex = /^\d+$/;
+         if(!regex.test(val)) //if val  is number then it will be true
+          {
+           return true;//means "val" is invalid.
+         }
+         else{
+           return false;//means val is valid
+         }
+      }
+      catch(e){
+         return true;
+       }
+}
+function isInvalidDate(date){
+    if(!date){
+        return true;
+      }
+      var reg = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/g;
+       if(!reg.test(date)){
+         return true;
+       }
+}
+// $scope.isInvalidPrice  =function (){
+//      if(!$scope.data.CategoryItemPrice){
+//        return true;
+//      }
+//      console.log(angular.isNumber($scope.data.CategoryItemPrice));
+//      if(!angular.isNumber($scope.data.CategoryItemPrice)){
+//        return true;
+//      }
+// }
 
 $scope.showHistory = function() {
 console.log("hist");
@@ -193,8 +229,6 @@ $scope.deleteRecord = function(id) {
           var cat_item_id;
           var query = "DELETE from tblCategoryItems where category_item_id =?";
           $cordovaSQLite.execute(db, query, [$scope.data.category_item_id]).then(function(res) {
-          console.log("success");
-        //  $location.path("/lists/"+idOfItem);
           $window.location.reload();
 
           }, function (err) {
