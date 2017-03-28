@@ -8,7 +8,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
         var i;
         console.log("Refreshed"+$scope.count);
         $scope.count++
-        i=2*$scope.count;
+        i=5*$scope.count;
         var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems"+
         " where category_id = ? LIMIT "+i;
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
@@ -25,7 +25,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
    };
      $scope.lists=[];
       var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems"+
-      " where category_id = ? LIMIT "+2;
+      " where category_id = ? LIMIT "+5;
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
