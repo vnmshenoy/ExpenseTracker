@@ -8,12 +8,13 @@ expenseTracker.controller("OverviewController", function($scope,
 
     $ionicPlatform.ready(function() {
       //$ionicSideMenuDelegate.toggleLeft();
-
+      $ionicSideMenuDelegate.toggleLeft();
         var query = "SELECT id,category_Id, category_name FROM tblCategories";
         $cordovaSQLite.execute(db, query, []).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
                     $scope.categories.push({id: res.rows.item(i).id, category_id:res.rows.item(i).category_id,category_name: res.rows.item(i).category_name});
+                   $scope.toggleLeft();
                 }
             }
         }, function (err) {

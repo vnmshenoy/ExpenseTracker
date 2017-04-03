@@ -8,7 +8,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
         var i;
         console.log("Refreshed"+$scope.count);
         $scope.count++
-        i=5*$scope.count;
+        i=15*$scope.count;
         var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems"+
         " where category_id = ? LIMIT "+i;
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
@@ -25,7 +25,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
    };
      $scope.lists=[];
       var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems"+
-      " where category_id = ? LIMIT "+5;
+      " where category_id = ? LIMIT "+15;
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
@@ -57,18 +57,18 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
                    $scope.showErrorPrice=false;
                    $scope.showErrorUnit = false;
                    $scope.showErrorDate = false;
-                  if(!$scope.data.CategoryItemPrice){
+                  if(isInvalidVal($scope.data.CategoryItemPrice)){
                   //don't allow the user to submit unless he enters price,units and date
                   e.preventDefault();
                   $scope.showErrorPrice = true;
                 }
 
-                if(!$scope.data.CategoryItemUnit){
+                if(isInvalidVal($scope.data.CategoryItemUnit)){
                   e.preventDefault();
                   $scope.showErrorUnit = true;
                  }
 
-                 if(!$scope.data.CategoryItemDate){
+                 if(isInvalidDate($scope.data.CategoryItemDate)){
                    e.preventDefault();
                    $scope.showErrorDate = true;
                   }
@@ -151,14 +151,15 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
            }
          ]
     })
-    .then(function(result) {
+    .then(function(result) {//http://stackoverflow.com/questions/5233050/how-to-refresh-a-page-with-jquery-by-passing-a-parameter-to-url
           var cat_item_id;
           console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
           var query = "Update tblCategoryItems SET category_item_name = ?,category_item_price=?,category_item_unit = ?,category_item_date=? where category_item_id =?";
           $cordovaSQLite.execute(db, query, [$scope.data.CategoryItemName,$scope.data.CategoryItemPrice,$scope.data.CategoryItemUnit,dateTime.parseDate($scope.data.CategoryItemDate),$scope.data.category_item_id]).then(function(res) {
           console.log("success");
         //  $location.path("/lists/"+idOfItem);
-          $window.location.reload();
+       $window.location.reload();
+      //   $window.location.href=  $location.path()+"/?id = 123";
 
           }, function (err) {
                   console.error(err);
