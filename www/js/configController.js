@@ -1,12 +1,13 @@
 expenseTracker.controller("ConfigController",
 function($scope, $ionicPlatform, $ionicLoading, $location, $ionicHistory,
-  $cordovaSQLite,$ionicSideMenuDelegate) {
+  $cordovaSQLite,$ionicSideMenuDelegate,$localStorage,$window) {
   $ionicHistory.nextViewOptions({
           disableAnimate: true,
           disableBack: true
       });
       $ionicPlatform.ready(function() {
           $ionicLoading.show({ template: 'Loading...' });
+          $window.localStorage.setItem("count",0);
           if(window.cordova) {
               window.plugins.sqlDB.copy("populated.db", function() {
                   db = $cordovaSQLite.openDB({name:"populated.db",location:'default'});

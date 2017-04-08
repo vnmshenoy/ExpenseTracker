@@ -1,11 +1,13 @@
 expenseTracker.controller("CategoriesController", function($scope,
    $ionicPlatform,  $ionicPopup, $cordovaSQLite,$stateParams,
-   $ionicSideMenuDelegate,$document) {
+   $ionicSideMenuDelegate,$document,$window,$location) {
     $scope.categories = [];
     console.log(angular.element($document[0].body).hasClass('menu-open'));
 
     $ionicPlatform.ready(function() {
     //  $ionicSideMenuDelegate.toggleLeft();
+    alert( $window.localStorage.getItem("count"));
+       $window.localStorage.setItem("count",0);
         var query = "SELECT id,category_Id, category_name FROM tblCategories";
         $cordovaSQLite.execute(db, query, []).then(function(res) {
             if(res.rows.length > 0) {

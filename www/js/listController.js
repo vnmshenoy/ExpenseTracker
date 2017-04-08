@@ -1,16 +1,22 @@
 expenseTracker.controller("ListController",
 function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
-   $ionicHistory, $cordovaSQLite,$stateParams,dateTime,$ionicSideMenuDelegate,$window,dateFilter) {
+   $ionicHistory, $cordovaSQLite,$stateParams,dateTime,$ionicSideMenuDelegate,$window,dateFilter,$localStorage) {
     $ionicPlatform.ready(function() {
       $scope.count=1;
+      alert($window.localStorage.getItem("count"));
+      var localStorageVal = parseInt($window.localStorage.getItem("count"));
       $scope.doRefresh = function() {
         $scope.lists = [];
-        var i;
-        console.log("Refreshed"+$scope.count);
-        $scope.count++
-        i=15*$scope.count;
+        var i=0;
+        $scope.count++;
+        i=5*$scope.count;
+        if(localStorageVal > i)
+            i = localStorageVal;
+
+
+        $window.localStorage.setItem("count", JSON.stringify(i));
         var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems"+
-        " where category_id = ? LIMIT "+i;
+        " where category_id = ? LIMIT "+ i;
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
@@ -24,8 +30,11 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
         });
    };
      $scope.lists=[];
+     if(localStorageVal==0){
+       localStorageVal = 5;
+     }
       var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems"+
-      " where category_id = ? LIMIT "+15;
+      " where category_id = ? LIMIT "+localStorageVal;
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
@@ -231,6 +240,7 @@ $scope.deleteRecord = function(id) {
           var cat_item_id;
           var query = "DELETE from tblCategoryItems where category_item_id =?";
           $cordovaSQLite.execute(db, query, [$scope.data.category_item_id]).then(function(res) {
+
           $window.location.reload();
 
           }, function (err) {
