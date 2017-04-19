@@ -3,7 +3,6 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
    $ionicHistory, $cordovaSQLite,$stateParams,dateTime,$ionicSideMenuDelegate,$window,dateFilter,$localStorage) {
     $ionicPlatform.ready(function() {
       $scope.count=1;
-      alert($window.localStorage.getItem("count"));
       var localStorageVal = parseInt($window.localStorage.getItem("count"));
       $scope.doRefresh = function() {
         $scope.lists = [];
@@ -12,7 +11,6 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
         i=5*$scope.count;
         if(localStorageVal > i)
             i = localStorageVal;
-
 
         $window.localStorage.setItem("count", JSON.stringify(i));
         var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems"+
@@ -58,7 +56,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
             templateUrl: "templates/ItemDetails.html",
             scope: $scope,
             buttons: [
-               { text: 'Cancel', onTap: function(e) { return true; } },
+               { text: 'Cancel', onTap: function(e) { return undefined; } },
                {
                  text: '<b>Save</b>',
                  type: 'button-positive',
@@ -165,11 +163,7 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
           console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
           var query = "Update tblCategoryItems SET category_item_name = ?,category_item_price=?,category_item_unit = ?,category_item_date=? where category_item_id =?";
           $cordovaSQLite.execute(db, query, [$scope.data.CategoryItemName,$scope.data.CategoryItemPrice,$scope.data.CategoryItemUnit,dateTime.parseDate($scope.data.CategoryItemDate),$scope.data.category_item_id]).then(function(res) {
-          console.log("success");
-        //  $location.path("/lists/"+idOfItem);
-       $window.location.reload();
-      //   $window.location.href=  $location.path()+"/?id = 123";
-
+          $window.location.reload();
           }, function (err) {
                   console.error(err);
            });
