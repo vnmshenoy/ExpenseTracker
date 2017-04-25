@@ -50,21 +50,20 @@ expenseTracker.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/config');
 });
 
-expenseTracker.run(function($ionicPlatform) {
+expenseTracker.run(function($ionicPlatform,$cordovaSQLite, $location,$ionicLoading) {
   $ionicPlatform.ready(function() {
-    db = openDatabase("populated.db", '1.0', "My WebSQL Database", 2 * 1024 * 1024);
-    if(window.cordova) {
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
-      //cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-
-      // Don't remove this line unless you know what you are doing. It stops the viewport
-      // from snapping when text inputs are focused. Ionic handles this internally for
-      // a much nicer keyboard experience.
-  //    cordova.plugins.Keyboard.disableScroll(true);
-    }
+//    document.addEventListener('deviceready', function() {
+//    db = window.sqlitePlugin.openDatabase({name: 'populated1.db', location: 'default'});
+//   db.transaction(function(tr) {
+//
+//   $location.path("/categories");
+//  $ionicLoading.hide();
+//   });
+// });
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+
+    
   });
 });

@@ -33,12 +33,14 @@ expenseTracker.controller("CategoriesController", function($scope,
         .then(function(result) {
           var cat_id;
             if(result !== undefined) {
-                 var query= "select * from  tblCategories ORDER BY category_Id DESC LIMIT 1";
-                 $cordovaSQLite.execute(db, query, []).then(function(res) {
+                 var query= "select id,category_Id, category_name from  tblCategories ORDER BY category_Id DESC LIMIT 1";
+                 $cordovaSQLite.execute(db, query).then(function(res) {
+                   var l = res.rows['item'];
                      if(res.rows.length <= 0) {
                           cat_id =  1;
                         }  else {
-                          cat_id=  ++res.rows[0].category_id;
+                          cat_id=  ++l(0).category_id;
+                          //cat_id=  ++res.rows[0].category_id;
                        }
                         var queryInsert = "INSERT INTO tblCategories (category_Id, category_name) VALUES (?,?)";
                         $cordovaSQLite.execute(db, queryInsert, [cat_id,result]).then(function(res) {
