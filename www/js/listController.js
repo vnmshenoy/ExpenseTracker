@@ -4,6 +4,9 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
     $ionicPlatform.ready(function() {
       $scope.count=1;
       var localStorageVal = parseInt($window.localStorage.getItem("count"));
+      if(db==null){
+          db = $cordovaSQLite.openDB({name: 'populated2.db', location: 'default'});
+      }
       $scope.doRefresh = function() {
         $scope.lists = [];
         var i=0;
@@ -15,6 +18,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
         $window.localStorage.setItem("count", JSON.stringify(i));
         var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems"+
         " where category_id = ? LIMIT "+ i;
+
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function(res) {
             if(res.rows.length > 0) {
                 for(var i = 0; i < res.rows.length; i++) {
@@ -233,9 +237,18 @@ $scope.deleteRecord = function(id) {
     .then(function(result) {
           var cat_item_id;
           var query = "DELETE from tblCategoryItems where category_item_id =?";
+
+      //     $cordovaSQLite.execute(db, query1).then(function(res) {
+      //
+      // $window.location.reload();
+      // console.log(res);
+      //
+      //     }, function (err) {
+      //             console.error(err);
+      //      });
           $cordovaSQLite.execute(db, query, [$scope.data.category_item_id]).then(function(res) {
 
-          $window.location.reload();
+         $window.location.reload();
 
           }, function (err) {
                   console.error(err);
