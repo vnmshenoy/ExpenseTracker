@@ -64,6 +64,6 @@ expenseTracker.run(function($ionicPlatform,$cordovaSQLite, $location,$ionicLoadi
       StatusBar.styleDefault();
     }
 
-    
+
   });
 });

@@ -2,6 +2,7 @@ expenseTracker.controller("ListController",
 function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
    $ionicHistory, $cordovaSQLite,$stateParams,dateTime,$ionicSideMenuDelegate,$window,dateFilter,$localStorage) {
     $ionicPlatform.ready(function() {
+      $ionicLoading.hide();
       $scope.count=1;
       var localStorageVal = parseInt($window.localStorage.getItem("count"));
       if(db==null){
@@ -30,6 +31,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
         }, function (err) {
             console.error(err);
         });
+
    };
      $scope.lists=[];
      if(localStorageVal==0){
@@ -47,6 +49,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
         }, function (err) {
             console.error(err);
         });
+    //    $ionicLoading.hide();
     });
 
     $scope.toggleLeft = function() {
@@ -89,8 +92,9 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
              ]
         })
         .then(function(result) {
+
+
               var cat_item_id;
-              console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
               if(result !== undefined){
                  var date=dateTime.parseDate($scope.data.CategoryItemDate);
                  var query= "select * from  tblCategoryItems ORDER BY category_item_id DESC LIMIT 1";
@@ -112,6 +116,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
                      } else {
                          console.log("Action not completed");
                      }
+                     //$ionicLoading.hide();
   });
 }
 
@@ -139,6 +144,7 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
              text: '<b>Save</b>',
              type: 'button-positive',
              onTap: function(e) {
+
                $scope.showErrorPrice=false;
                $scope.showErrorUnit = false;
                $scope.showErrorDate = false;
@@ -163,10 +169,15 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
          ]
     })
     .then(function(result) {//http://stackoverflow.com/questions/5233050/how-to-refresh-a-page-with-jquery-by-passing-a-parameter-to-url
+
+      $ionicLoading.show({
+         template: 'Loading...'
+      });
           var cat_item_id;
-          console.log("name"+$scope.data.CategoryItemName+">>"+$scope.data.CategoryItemPrice);
+
           var query = "Update tblCategoryItems SET category_item_name = ?,category_item_price=?,category_item_unit = ?,category_item_date=? where category_item_id =?";
           $cordovaSQLite.execute(db, query, [$scope.data.CategoryItemName,$scope.data.CategoryItemPrice,$scope.data.CategoryItemUnit,dateTime.parseDate($scope.data.CategoryItemDate),$scope.data.category_item_id]).then(function(res) {
+
           $window.location.reload();
           }, function (err) {
                   console.error(err);
@@ -235,6 +246,7 @@ $scope.deleteRecord = function(id) {
          ]
     })
     .then(function(result) {
+        $ionicLoading.show();
           var cat_item_id;
           var query = "DELETE from tblCategoryItems where category_item_id =?";
 
@@ -253,6 +265,7 @@ $scope.deleteRecord = function(id) {
           }, function (err) {
                   console.error(err);
            });
+      //     $ionicLoading.hide();
 
 });
 }
