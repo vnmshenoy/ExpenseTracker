@@ -44,14 +44,9 @@ expenseTracker.controller("OverviewController", function($scope,
          ]
     }).then(function(result) {
       var cat_item_id;
-      console.log("name"+$scope.data.fromDate+">>"+$scope.data.toDate);
-      //if(result !== undefined)
-      {
         var fromDate=dateTime.parseDate($scope.data.fromDate);
         var toDate=dateTime.parseDate($scope.data.toDate);
-        $location.path('/topNCategories/'+fromDate+'/'+toDate);
-
-        }
+        $location.path('/topNCategories/'+fromDate+'/'+toDate);    
     });
 }
 });

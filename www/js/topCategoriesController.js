@@ -31,7 +31,9 @@ expenseTracker.controller("TopCategoriesController", function($scope,
     $scope.getDetails = function(a,evt) {
     console.log(evt);
     var query = "SELECT category_Id FROM tblCategories where category_name=?";
-    $cordovaSQLite.execute(db, query, ["coles"]).then(function(res) {
+     var itemClicked = a[0]["_model"]["label"];
+
+    $cordovaSQLite.execute(db, query, [itemClicked.toString()]).then(function(res) {
         if(res.rows.length > 0) {
           console.log(res);
           var cat_id=res.rows.item(0).category_id;
