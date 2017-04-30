@@ -29,9 +29,9 @@
             <div class="col">{{list.category_item_price}}</div>
             <div class="col">{{list.category_item_unit}}</div>
             <div class="col">{{list.category_item_date}}</div>
-           <div class="col"><a href="#/itemHistory/{{list.category_item_name}}">Show History</a></div>
-           <div class="col"><a ng-click="editRecord('{{list.category_item_name}}',{{list.category_item_price}},{{list.category_item_unit}},'{{list.category_item_date}}',{{list.category_item_id}})">Edit Record</a></div>
-           <div class="col"><a ng-click="deleteRecord({{list.category_item_id}})">Delete Record</a></div>
+           <div class="col"><a href="#/itemHistory/{{list.category_item_name}}">History</a></div>
+           <div class="col"><a ng-click="editRecord('{{list.category_item_name}}',{{list.category_item_price}},{{list.category_item_unit}},'{{list.category_item_date}}',{{list.category_item_id}})">Edit</a></div>
+           <div class="col"><a ng-click="deleteRecord({{list.category_item_id}})">Delete</a></div>
          </div>
     </ion-content>
 </ion-view>
