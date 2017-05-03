@@ -1,8 +1,49 @@
 expenseTracker.controller("ListController",
 function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
-   $ionicHistory, $cordovaSQLite,$stateParams,dateTime,$ionicSideMenuDelegate,$window,dateFilter,$localStorage) {
+   $ionicHistory, $cordovaSQLite,$stateParams,dateTime,$ionicSideMenuDelegate,$window,dateFilter,$localStorage,  $ionicActionSheet,$cordovaCamera) {
     $ionicPlatform.ready(function() {
       $ionicLoading.hide();
+      /////for cordovaCamera
+      $scope.showAnalyzeButton = false;
+
+    var self = this;
+
+    this.showLoading = function() {
+      $ionicLoading.show({
+        template: '<ion-spinner></ion-spinner>'
+      });
+    };
+
+    this.hideLoading = function(){
+      $ionicLoading.hide();
+    };
+
+    this.getPicture = function(index){
+
+      var sourceType = index === 0 ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA;
+      var options = {
+        quality: 100,
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType: sourceType,
+        allowEdit: true,
+        encodingType: Camera.EncodingType.JPEG,
+        popoverOptions: CameraPopoverOptions,
+        saveToPhotoAlbum: false,
+        correctOrientation:true
+      };
+
+      $cordovaCamera.getPicture(options).then(function(imageData) {
+        var image = document.getElementById('pic');
+        image.src = "data:image/jpeg;base64," + imageData;
+        $scope.showAnalyzeButton = true;
+        console.log("testr");
+      }, function(err) {
+          console.log(err);
+      });
+
+    };
+
+      /////camera ends /////
       $scope.count=1;
       var localStorageVal = parseInt($window.localStorage.getItem("count"));
       if(db==null){
@@ -269,4 +310,33 @@ $scope.deleteRecord = function(id) {
 
 });
 }
+
+$scope.showActionSheet = function(){
+  var hideSheet = $ionicActionSheet.show({
+    buttons: [
+     { text: 'Choose Photo' },
+     { text: 'Take Photo' }
+    ],
+    cancelText: 'Cancel',
+    cancel: function() {
+      console.log('cancel');
+    },
+    buttonClicked: function(index) {
+      getPicture(index);
+     return true;
+    }
+  });
+};
+
+$scope.showActionSheet();
+
+$scope.useCamera = function(){
+    self.showLoading();
+    OCRAD(document.getElementById("pic"), function(text){
+      self.hideLoading();
+      console.log(text);
+      alert(text);
+    });
+  } ;
+
 });
