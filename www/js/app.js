@@ -17,6 +17,11 @@ expenseTracker.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'templates/categories.html',
             controller: 'CategoriesController'
         })
+        .state('bills', {
+            url: '/bills',
+            templateUrl: 'templates/bills.html',
+            controller: 'BillsController'
+        })
         .state('lists', {
             url: '/lists/:categoryId',
             templateUrl: 'templates/lists.html',
