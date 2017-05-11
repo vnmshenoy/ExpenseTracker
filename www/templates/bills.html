@@ -11,18 +11,17 @@
 
 </ion-view> -->
 <ion-view class="has-header padding">
-
+{{billCats}}
   <div class="row" ng-repeat="bCat in billCats">
 
      <div class="col-sm-6">
-          Add images for {{bCat.category_name}}
-          <button class="button button-energized" ng-click="addImage()">
-        	  Add image
+          <button class="button button-energized" ng-click="addImage({{bCat.id}})">
+        	  Add image for {{bCat.category_name}}
           </button><br><br>
-          View Images for {{bCat.category_name}}
+
           <button class="button button-energized" ng-click="urlForImage()">
-        	  View image
-          </button><br><br>
+              View Images for {{bCat.category_name}}
+        </button><br><br>
      </div>
       <div class="col-sm-6"></div>
   </div>

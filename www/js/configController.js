@@ -8,10 +8,11 @@ function($scope, $ionicPlatform, $ionicLoading, $location, $ionicHistory,
       $ionicPlatform.ready(function() {
           $ionicLoading.show({ template: 'Loading...' });
           $window.localStorage.setItem("count",0);
-        
+
           db = $cordovaSQLite.openDB({name: 'populated2.db', location: 'default'});
                $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS tblCategories (id integer primary key,  category_id integer, category_name text)");
                $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS tblCategoryItems (id integer primary key, category_item_id integer,category_id integer, category_item_name text,category_item_price integer,category_item_unit integer, category_item_date date)");
+               $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS billPerCategory (id integer primary key, category_id integer,category_path integer)");
                $location.path("/categories");
                $ionicLoading.hide();
 //           document.addEventListener('deviceready', function() {
