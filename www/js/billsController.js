@@ -108,7 +108,7 @@
   // });
 
   expenseTracker.controller("BillsController", function($scope,
-    $ionicPlatform, $cordovaSQLite, $stateParams,$timeout,$window,$cordovaCamera,$ionicSideMenuDelegate) {
+    $ionicPlatform, $cordovaSQLite, $location,$stateParams,$timeout,$window,$cordovaCamera,$ionicSideMenuDelegate) {
       $ionicPlatform.ready(function() {
         var query= "select * from  tblCategories";
         $scope.billCats = [];
@@ -193,26 +193,24 @@
     		console.log(err);
       	});
       };
-
-
-      $scope.urlForImage = function(imageName) {
+      $scope.viewImages =function(id){
+          $location.path("/viewImages/"+id);
+      }
+      $scope.urlForImage = function(id) {
         var name = '';
-       if( (imageName == undefined) || (imageName == null) )
-         {
-         var a = $window.localStorage.getItem("imgUrls");
-        name = a.substr(a.lastIndexOf('/') + 1);
-         }
-        else{
-         name = imageName.substr(imageName.lastIndexOf('/') + 1);
-       }
-       console.log("name ius"+name);
+        var imgs = $window.localStorage.getItem("img"+id);
+        if((imgs == undefined) || (imgs == null) )
+          {
+              console.log(imgs);
+          }
+        else
+            {
+            //  name = imageName.substr(imageName.lastIndexOf('/') + 1);
+            }
        var trueOrigin = cordova.file.dataDirectory + name;
        $scope.images.push(trueOrigin);
-       $location.path("/addImages");
+       $location.path("/viewImages");
        return trueOrigin;
    }
-  // $scope.addImage = function(id){
-  // console.log(id);
-  //
-  // }
+
     });

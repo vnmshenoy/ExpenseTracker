@@ -1,0 +1,17 @@
+
+<!--
+<ion-view title="TopCategories">
+  <ion-nav-bar>
+  </ion-nav-bar>
+
+
+<ion-scroll>
+  <img ng-repeat="i in im"  height="200px"/>
+</ion-scroll>
+
+</ion-view> -->
+
+
+<ion-scroll>
+<img ng-repeat="i in im  track by $index" ng-src="{{getImage(i)}}" height="200px"/>
+</ion-scroll>

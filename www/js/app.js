@@ -47,10 +47,10 @@ expenseTracker.config(function($stateProvider, $urlRouterProvider) {
         })
 
 //??
-        .state('addImages', {
-            url: '/??/:fromDate/:toDate',
-            templateUrl: 'templates/topTenAcrossCats.html',
-          controller: 'TopNCategoriesController'
+        .state('viewImages', {
+            url: '/viewImages/:id',
+            templateUrl: 'templates/viewImages.html',
+            controller: 'ViewImagesController'
         })
 
 
