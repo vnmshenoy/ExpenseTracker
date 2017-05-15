@@ -11,19 +11,39 @@
 
 </ion-view> -->
 <ion-view class="has-header padding">
-{{billCats}}
+  <div class="row" >
+    <div class="col-xs-12">
+      {{bCat.category_name}}
+    </div>
+  </div>
   <div class="row" ng-repeat="bCat in billCats">
+    <div class="row">
+         <div class="col-xs-3">
+           {{bCat.category_name}}:
+         </div>
+    </div>
+      <div class="row">
+          <div class="col-xs-4">
+           <button class="button button-energized" ng-click="addImage({{bCat.id}})">
+             Add
+           </button>
+         </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <div class="col-xs-4">
+           <button class="button button-energized" ng-click="viewImages({{bCat.id}})">
+               View
+           </button>
+         </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-     <div class="col-sm-6">
-          <button class="button button-energized" ng-click="addImage({{bCat.id}})">
-        	  Add image for {{bCat.category_name}}
-          </button><br><br>
-
+       <div class="col-xs-4">
           <button class="button button-energized" ng-click="viewImages({{bCat.id}})">
-              View Images for {{bCat.category_name}}
-        </button><br><br>
-     </div>
-      <div class="col-sm-6"></div>
+            Delete
+          </button>
+        </div>
+      </div>
+<br/><br/><br/>
+   </div>
+
+
   </div>
 
 </ion-view>
