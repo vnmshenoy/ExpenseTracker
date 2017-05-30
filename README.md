@@ -42,5 +42,5 @@ Sample data
 how to install sqlite on mobile with app
 
 git quick commands
-	git checkout -- myfile.ext git 
+	git checkout -- myfile.ext git ok
 
