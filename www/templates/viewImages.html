@@ -1,3 +1,3 @@
 <ion-scroll>
-<img ng-repeat="i in im  track by $index" ng-src="{{getImage(i)}}" height="300px"/>
+<img ng-repeat="i in im  track by $index" on-hold="deleteImg(i,im)" ng-src="{{getImage(i)}}" height="300px"/>
 </ion-scroll>
