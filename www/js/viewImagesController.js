@@ -2,10 +2,11 @@ expenseTracker.controller("ViewImagesController", function($scope,
     $ionicPlatform, $cordovaSQLite, $stateParams,$window,$location,$ionicPopup) {
       $ionicPlatform.ready(function() {
         var name = '';
-        $scope.im =[];
+        $scope.im =[];      
         var  localStorageId = "img"+$stateParams.id;
         var imgs = $window.localStorage.getItem("img"+$stateParams.id);
         $scope.localStorageId =localStorageId;
+        $scope.id =$stateParams.id;;
         if((imgs != undefined) && (imgs != null) )
           {
             var a = imgs.split('~,');
@@ -37,8 +38,9 @@ expenseTracker.controller("ViewImagesController", function($scope,
                           }
                    }
                    if(indxToRmv >=0){//if any img selected to delete
-                        imArr.splice(indxToRmv,1);
+                        imArr.splice(indxToRmv,1);                       
                         window.localStorage.setItem($scope.localStorageId,imArr);//updated local storage with imArr(delted current //img)
+                        $location.path("/viewImages/"+$scope.id);
                    }
                 } else {
                    //  alert("in else");

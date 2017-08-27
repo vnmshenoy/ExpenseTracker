@@ -6,7 +6,7 @@ expenseTracker.controller("CategoriesController", function($scope,
 
     $ionicPlatform.ready(function() {
     //  $ionicSideMenuDelegate.toggleLeft();
-    alert( $window.localStorage.getItem("count"));
+  //  alert( $window.localStorage.getItem("count"));
        $window.localStorage.setItem("count",0);
         var query = "SELECT id,category_Id, category_name FROM tblCategories";
         $cordovaSQLite.execute(db, query, []).then(function(res) {
