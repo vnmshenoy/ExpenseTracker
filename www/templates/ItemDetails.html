@@ -1,18 +1,19 @@
 
 <ng-form id="test" name="test">
- Content<input id="content" required ng-model="data.CategoryItemName" type="text" ng-maxlength="15"></input>
+ Content
+    <input id="content" required ng-model="data.CategoryItemName" type="text" ng-maxlength="15"/>
  <div class="help-block error" ng-show="test.content.$error.required">Required</div>
 
- Price<input ng-model="data.CategoryItemPrice" type="text"> </input>
+ Price<input ng-model="data.CategoryItemPrice" type="text"/>
     <p ng-if="showErrorPrice" style="color:red" class="error">Please enter a valid price</p>
 
- Unit <input ng-model="data.CategoryItemUnit" type="text"> </input>
+ Unit <input ng-model="data.CategoryItemUnit" type="text"/>
     <p ng-if="showErrorUnit" style="color:red" class="error">Please enter a valid unit</p>
 
- Date <input type="date" ng-model="data.CategoryItemDate"></input>
+ Date <input type="date" ng-model="data.CategoryItemDate"/>
      <p ng-if="showErrorDate" style="color:red" class="error">Please enter a valid date in dd/mm/yyyy format</p>
 
- </div>
+</ng-form>
  <!-- <form name="loginForm" ng-submit="$scope.login($scope.user);" novalidate>
             <label class="item item-input" ng-class="{ 'has-errors' : loginForm.username.$invalid && !loginForm.username.$pristine, 'no-errors' : loginForm.username.$valid}">
                 <span class="input-label">name</span>
