@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -48,46 +49,55 @@
     <script src="js/viewImagesController.js"></script>
     <script src="js/angular-local-storage.js"></script>
     <style>
-    .icon {
-   font-size: 50px;
-}
-    table{
-      width:100%;
-    }
-
-  td{
-width:100%;
-  }
-
-  .has-errors {
-    border-left: 3px solid #cc2511;
-    border-right: 3px solid #cc2511;
-}
-.no-errors {
-    border-left: 3px solid #3d8b3d;
-    border-right: 3px solid #3d8b3d;
-}
-.imageColumn
-{
-  margin-left:70%;
-  margin-right:70%;
-}
-
+        .icon {
+            font-size: 50px;
+        }
+        
+        table {
+            width: 100%;
+        }
+        
+        td {
+            width: 100%;
+        }
+        
+        .has-errors {
+            border-left: 3px solid #cc2511;
+            border-right: 3px solid #cc2511;
+        }
+        
+        .no-errors {
+            border-left: 3px solid #3d8b3d;
+            border-right: 3px solid #3d8b3d;
+        }
+        
+        .imageColumn {
+            margin-left: 70%;
+            margin-right: 70%;
+        }
+        
+        .title-image {
+            margin-top: 1px;
+            height: 200px;
+           
+        }
     </style>
-  </head>
-  <body ng-app="starter">
+</head>
+
+<body ng-app="starter">
     <ion-side-menus enable-menu-with-back-views="true">
-     <ion-side-menu side="left">
-       <div style="margin-top:50px">
-        <a href="#/overview">Overview</a></br></br>
-        <a href="#/categories">Add Categories</a></br></br>
-        <a href="#/bills">Add Bills for references</a></br></br>
-        <a href="#/categories">About us </a></br></br>
-      </div>
-    </ion-side-menu>
-    <ion-side-menu-content>
-    <ion-nav-view></ion-nav-view>
-      </ion-side-menu-content>
+        <ion-side-menu side="left">
+            <div style="margin-top:50px">
+                <a href="#/overview">Overview</a><br>
+                <a href="#/categories">Add Categories</a><br>
+                <a href="#/bills">Add Bills for references</a><br>
+                <a href="#/categories">About us </a><br>
+            </div>
+        </ion-side-menu>
+        <ion-side-menu-content>
+            <ion-nav-view></ion-nav-view>
+        </ion-side-menu-content>
     </ion-side-menus>
-  </body>
+</body>
+
 </html>

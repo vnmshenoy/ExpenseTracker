@@ -19,12 +19,14 @@ expenseTracker.controller("CategoriesController", function($scope,
         }, function (err) {
             console.error(err);
         });
+        
+
     });
 
     $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
   }
-
+  $scope.navTitle='<img class="title-image" src="../img/ionic.png" />';
     $scope.insert = function() {
         $ionicPopup.prompt({
             title: 'Enter a Category',
