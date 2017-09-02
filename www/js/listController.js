@@ -12,7 +12,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
         $scope.lists = [];
         var i=0;
         $scope.count++;
-        i=5*$scope.count;
+        i=10*$scope.count;
         if(localStorageVal > i)
             i = localStorageVal;
 
@@ -35,7 +35,7 @@ function($scope, $ionicPlatform, $ionicLoading, $ionicPopup,
    };
      $scope.lists=[];
      if(localStorageVal==0){
-       localStorageVal = 5;
+       localStorageVal = 10;
      }
       var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems"+
       " where category_id = ? LIMIT "+localStorageVal;
@@ -126,11 +126,7 @@ $scope.editRecord = function(name,price,unit,date,idOfItem) {
   $scope.data.CategoryItemName=name;
   $scope.data.category_item_id=idOfItem;
   $scope.data.CategoryItemPrice=price;
-  $scope.data.CategoryItemUnit=unit;
-  //$scope.data.CategoryId=unit;
-  //var date1 =new Date(date);
-  //var date2= dateTime.parseDate(date1);
-  //$scope.data.CategoryItemDate =new Date(date);
+  $scope.data.CategoryItemUnit=unit;  
   $scope.data.CategoryItemDate =new Date(date);
   $scope.showError = false;
 
@@ -230,16 +226,18 @@ console.log("hist");
 
 $scope.deleteRecord = function(id) {
   $scope.data = {};
-  $scope.data.category_item_id = id;
     $ionicPopup.show({
         title: 'Delete record',
         scope: $scope,
         buttons: [
-           { text: 'Cancel', onTap: function(e) { return true; } },
+           { text: 'Cancel', onTap: function(e) { alert("cancel");return true; } },
            {
              text: '<b>Save</b>',
              type: 'button-positive',
              onTap: function(e) {
+               alert("hey");
+                 $scope.data.category_item_id = id;
+
             return true;
             }
            }
@@ -250,14 +248,6 @@ $scope.deleteRecord = function(id) {
           var cat_item_id;
           var query = "DELETE from tblCategoryItems where category_item_id =?";
 
-      //     $cordovaSQLite.execute(db, query1).then(function(res) {
-      //
-      // $window.location.reload();
-      // console.log(res);
-      //
-      //     }, function (err) {
-      //             console.error(err);
-      //      });
           $cordovaSQLite.execute(db, query, [$scope.data.category_item_id]).then(function(res) {
 
          $window.location.reload();
@@ -265,8 +255,7 @@ $scope.deleteRecord = function(id) {
           }, function (err) {
                   console.error(err);
            });
-      //     $ionicLoading.hide();
-
+     
 });
 }
 });
