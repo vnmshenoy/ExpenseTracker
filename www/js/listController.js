@@ -235,7 +235,6 @@ $scope.deleteRecord = function(id) {
              text: '<b>Save</b>',
              type: 'button-positive',
              onTap: function(e) {
-               alert("hey");
                  $scope.data.category_item_id = id;
 
             return true;
