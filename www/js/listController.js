@@ -11,6 +11,7 @@ expenseTracker.controller("ListController",
       $scope.doRefresh = function () {
         $scope.lists = [];
         var i = 0;
+        var resRows;
         $scope.count++;
         i = 10 * $scope.count;
         if (localStorageVal > i)
@@ -23,9 +24,10 @@ expenseTracker.controller("ListController",
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function (res) {
           if (res.rows.length > 0) {
             for (var i = 0; i < res.rows.length; i++) {
+              resRows=res.rows.item(i);
               $scope.lists.push({
-                id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, category_item_id: res.rows.item(i).category_item_id, category_item_name: res.rows.item(i).category_item_name,
-                category_item_price: res.rows.item(i).category_item_price, category_item_unit: res.rows.item(i).category_item_unit, category_item_date: res.rows.item(i).category_item_date
+                id: resRows.id, category_id: resRows.category_id, category_item_id: resRows.category_item_id, category_item_name: resRows.category_item_name,
+                category_item_price: resRows.category_item_price, category_item_unit: resRows.category_item_unit, category_item_date: resRows.category_item_date
               });
             }
           }
@@ -41,12 +43,14 @@ expenseTracker.controller("ListController",
       }
       var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
         " where category_id = ? LIMIT " + localStorageVal;
+        var resRowsLoad;
       $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function (res) {
         if (res.rows.length > 0) {
           for (var i = 0; i < res.rows.length; i++) {
+              resRowsLoad=res.rows.item(i);
             $scope.lists.push({
-              id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, category_item_id: res.rows.item(i).category_item_id, category_item_name: res.rows.item(i).category_item_name,
-              category_item_price: res.rows.item(i).category_item_price, category_item_unit: res.rows.item(i).category_item_unit, category_item_date: res.rows.item(i).category_item_date
+              id: resRowsLoad.id, category_id:resRowsLoad.category_id, category_item_id:resRowsLoad.category_item_id, category_item_name: resRowsLoad.category_item_name,
+              category_item_price: resRowsLoad.category_item_price, category_item_unit: resRowsLoad.category_item_unit, category_item_date: resRowsLoad.category_item_date
             });
           }
         }
@@ -100,7 +104,8 @@ expenseTracker.controller("ListController",
 
           var cat_item_id;
           if (result !== undefined) {
-            var date = dateTime.parseDate($scope.data.CategoryItemDate);
+           var dd= $scope.data;
+            var date = dateTime.parseDate(dd.CategoryItemDate);
             var query = "select * from  tblCategoryItems ORDER BY category_item_id DESC LIMIT 1";
             $cordovaSQLite.execute(db, query, []).then(function (res) {
               if (res.rows.length <= 0 && res.rows.category_item_id === undefined) {
@@ -110,8 +115,8 @@ expenseTracker.controller("ListController",
                 cat_item_id = ++l(0).category_item_id;
               }
               var query = "INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date) VALUES (?,?,?,?,?,?)";
-              $cordovaSQLite.execute(db, query, [$stateParams.categoryId, cat_item_id, $scope.data.CategoryItemName, $scope.data.CategoryItemPrice, $scope.data.CategoryItemUnit, date]).then(function (res) {
-                $scope.lists.push({ id: res.insertId, category_id: $stateParams.categoryId, category_item_id: cat_item_id, category_item_name: $scope.data.CategoryItemName, category_item_price: parseInt($scope.data.CategoryItemPrice, 10), category_item_unit: $scope.data.CategoryItemUnit, category_item_date: date });
+              $cordovaSQLite.execute(db, query, [$stateParams.categoryId, cat_item_id, dd.CategoryItemName, dd.CategoryItemPrice, dd.CategoryItemUnit, date]).then(function (res) {
+                $scope.lists.push({ id: res.insertId, category_id: $stateParams.categoryId, category_item_id: cat_item_id, category_item_name: $scope.data.CategoryItemName, category_item_price: parseInt(dd.CategoryItemPrice, 10), category_item_unit: dd.CategoryItemUnit, category_item_date: date });
               }, function (err) {
                 console.error(err);
               });
@@ -167,15 +172,16 @@ expenseTracker.controller("ListController",
           }
         ]
       })
-        .then(function (result) {//http://stackoverflow.com/questions/5233050/how-to-refresh-a-page-with-jquery-by-passing-a-parameter-to-url
+        .then(function (result) {//http://stackoverflow.com/questions/5233050/how-to-refresh-a-page-with-jquery-by-passing-a-parameter-to-url 
 
           $ionicLoading.show({
-            template: 'Loading...'
+            template: 'Loading your records.Please wait....',
+            showBackdrop: false   
           });
           var cat_item_id;
-
+          var dd= $scope.data;
           var query = "Update tblCategoryItems SET category_item_name = ?,category_item_price=?,category_item_unit = ?,category_item_date=? where category_item_id =?";
-          $cordovaSQLite.execute(db, query, [$scope.data.CategoryItemName, $scope.data.CategoryItemPrice, $scope.data.CategoryItemUnit, dateTime.parseDate($scope.data.CategoryItemDate), $scope.data.category_item_id]).then(function (res) {
+          $cordovaSQLite.execute(db, query, [dd.CategoryItemName, dd.CategoryItemPrice, dd.CategoryItemUnit, dateTime.parseDate(dd.CategoryItemDate), dd.category_item_id]).then(function (res) {
 
             $window.location.reload();
           }, function (err) {
@@ -216,7 +222,7 @@ expenseTracker.controller("ListController",
     
 
     $scope.showHistory = function () {
-      console.log("hist");
+      //console.log("hist");
     }
 
     $scope.deleteRecord = function (id) {
@@ -225,7 +231,7 @@ expenseTracker.controller("ListController",
         title: 'Delete record',
         scope: $scope,
         buttons: [
-          { text: 'Cancel', onTap: function (e) { alert("cancel"); return true; } },
+          { text: 'Cancel', onTap: function (e) {return true; } },
           {
             text: '<b>Save</b>',
             type: 'button-positive',
@@ -240,7 +246,8 @@ expenseTracker.controller("ListController",
           $ionicLoading.show();
           var cat_item_id;
           var query = "DELETE from tblCategoryItems where category_item_id =?";
-          $cordovaSQLite.execute(db, query, [$scope.data.category_item_id]).then(function (res) {
+          var dd= $scope.data;
+          $cordovaSQLite.execute(db, query, [dd.category_item_id]).then(function (res) {
             $window.location.reload();
           }, function (err) {
             console.error(err);
