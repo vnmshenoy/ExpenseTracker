@@ -4,13 +4,16 @@ expenseTracker.controller("CategoriesController", function ($scope,
     $scope.categories = [];
     $ionicPlatform.ready(function () {
         $window.localStorage.setItem("count", 0);
+        $scope.noCatRecords=true;//flag is used to track categories. If no categories, then hasRecords is false.
         var query = "SELECT id,category_Id, category_name FROM tblCategories";
         $cordovaSQLite.execute(db, query, []).then(function (res) {
             if (res.rows.length > 0) {
                 for (var i = 0; i < res.rows.length; i++) {
                     $scope.categories.push({ id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, category_name: res.rows.item(i).category_name });
                 }
+                $scope.noCatRecords=false;
             }
+            
         }, function (err) {
             console.error(err);
         });

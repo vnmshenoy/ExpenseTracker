@@ -15,8 +15,8 @@
                 <span> {{category.category_id}} {{category.category_name}} </span>
             </ion-item>
         </ion-list>
-         <div ng-if="categories.length==0">                  
-                <span style="margin-left:45px;color:blue !important;font-size:20px !important;">You haven't added any Category yet. Let's start by clicking "Add" on top</span>            
+         <div>                
+                <span  ng-show="noCatRecords" style="margin-left:45px;color:blue !important;font-size:20px !important;">You haven't added any Category yet. Let's start by clicking "Add" on top</span>            
         </div>
     </ion-content>
 </ion-view>

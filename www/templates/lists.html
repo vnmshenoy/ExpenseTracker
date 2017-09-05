@@ -14,7 +14,7 @@
         </ion-refresher>
       <!-- <table> -->
     <!--  http://codepen.io/anon/pen/VKdBJd-->
-          <div class="row header">
+          <div ng-if="lists.length>0" class="row header">
            <div class="col">Item Name</div>
             <div class="col">Price</div>
             <div class="col">Unit</div>
@@ -24,7 +24,7 @@
             <div class="col"></div>
           </div>
 
-          <div class="row" ng-repeat="list in lists">
+          <div ng-if="lists.length>0" class="row" ng-repeat="list in lists">
             <div class="col">{{list.category_item_name}}</div>
             <div class="col">{{list.category_item_price}}</div>
             <div class="col">{{list.category_item_unit}}</div>
@@ -33,30 +33,10 @@
            <div class="col"><a ng-click="editRecord('{{list.category_item_name}}',{{list.category_item_price}},{{list.category_item_unit}},'{{list.category_item_date}}',{{list.category_item_id}})">Edit</a></div>
            <div class="col"><a ng-click="deleteRecord({{list.category_item_id}})">Delete</a></div>
          </div>
+         <div>                
+                <span ng-show="noRecords" style="margin-left:45px;color:blue !important;font-size:20px !important;">You haven't added any item to the category yet. Let's start by clicking "Add" on top</span>            
+        </div>
     </ion-content>
 </ion-view>
 
-<!--
 
-<div ng-controller="MyCtrl">
-  <table>
-    <tr ng-repeat="item in items" ng-switch on="$index % 3">
-      <td ng-switch-when="0">
-        {{items[$index].id}} {{items[$index].name}}
-      </td>
-      <td ng-switch-when="0">
-        <span ng-show="items[$index+1]">
-          {{items[$index+1].id}} {{items[$index+1].name}}
-        </span>
-      </td>
-      <td ng-switch-when="0">
-        <span ng-show="items[$index+2]">
-          {{items[$index+2].id}} {{items[$index+2].name}}
-        </span>
-      </td>
-    </tr>
-  </table>
-</div>
-http://stackoverflow.com/questions/21644493/how-to-split-the-ng-repeat-data-with-three-columns-using-bootstrap/21653981#21653981
-
--->
