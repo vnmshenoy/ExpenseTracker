@@ -7,11 +7,11 @@ expenseTracker.controller("CategoriesController", function ($scope,
         $scope.noCatRecords=true;//flag is used to track categories. If no categories, then hasRecords is false.
         var query = "SELECT id,category_Id, category_name FROM tblCategories";
         $cordovaSQLite.execute(db, query, []).then(function (res) {
-            if (res.rows.length > 0) {
+            if (res.rows.length > 0) {   $scope.noCatRecords=false;
                 for (var i = 0; i < res.rows.length; i++) {
                     $scope.categories.push({ id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, category_name: res.rows.item(i).category_name });
                 }
-                $scope.noCatRecords=false;
+             
             }
             
         }, function (err) {
@@ -45,6 +45,7 @@ expenseTracker.controller("CategoriesController", function ($scope,
                         var queryInsert = "INSERT INTO tblCategories (category_Id, category_name) VALUES (?,?)";
                         $cordovaSQLite.execute(db, queryInsert, [cat_id, result]).then(function (res) {
                             $scope.categories.push({ id: res.insertId, category_id: cat_id, category_name: result });
+                            $scope.noCatRecords=false;
                         }, function (err) {
                             console.error(err);
                         });
