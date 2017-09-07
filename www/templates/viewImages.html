@@ -1,6 +1,9 @@
-<ion-scroll ng-if="im.length>0">
-<img ng-repeat="i in im  track by $index" on-hold="deleteImg(i,im)" ng-src="{{getImage(i)}}" height="300px"/>
+<ion-view title='<img style="margin-left:30%;" class="title-image" src="img/exTracker.png" />'>
+
+<ion-scroll>
+<img ng-if="im.length>0" ng-repeat="i in im  track by $index" on-hold="deleteImg(i,im)" ng-src="{{getImage(i)}}" height="300px"/>
 </ion-scroll>
 <div ng-if="im.length==0">
-  <span>No images to display</span>
+  <span style="margin-left:45px;color:blue !important;font-size:20px !important;">No images to display</span>
 </div>
+</ion-view>

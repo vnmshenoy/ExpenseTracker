@@ -17,10 +17,13 @@ expenseTracker.controller("ViewImagesController", function($scope,
           }
     });
 
-    $scope.getImage = function(i){
+     $scope.getImage = function(i){
        var name = i.substr(i.lastIndexOf('/') + 1);
+        if(name.length>0){
        var trueOrigin = cordova.file.dataDirectory + name;
        return trueOrigin;
+        }
+        else return "";
     }
     
     $scope.deleteImg = function(i,im){   
