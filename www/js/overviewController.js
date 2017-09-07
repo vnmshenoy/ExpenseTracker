@@ -14,7 +14,7 @@ expenseTracker.controller("OverviewController", function ($scope,
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           $scope.categories.push({ id: res.rows.item(i).id, category_id: res.rows.item(i).category_id, category_name: res.rows.item(i).category_name });
-          $scope.toggleLeft();
+        //  $scope.toggleLeft();
         }
       }
     }, function (err) {
@@ -22,9 +22,9 @@ expenseTracker.controller("OverviewController", function ($scope,
     });
   });
 
-  $scope.toggleLeft = function () {
+ /* $scope.toggleLeft = function () {
     $ionicSideMenuDelegate.toggleLeft();
-  }
+  }*/
 
   $scope.showTopTenAcrossCat = function () {
     $scope.data = {};
