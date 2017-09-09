@@ -8,21 +8,25 @@
  </ion-nav-buttons>
 </ion-nav-bar>
     <ion-content>
-                 <h4 style="margin-left:30%;color:blue;"><i>Item Top n Across all</i></h4>
- 
+       <h4 ng-if="topNCategories.length>0" style="margin-left:30%;color:blue;"><i>Item Top n Across all</i></h4>           
+
       <ion-refresher
            pulling-text="Pull to refresh..."
            on-refresh="doRefresh()">
         </ion-refresher>
-          <div class="row header">
+          <div ng-if="topNCategories.length>0" class="row header">
            <div class="col">Item Name</div>
             <div class="col">Price</div>
             <div class="col">Date</div>
           </div>
-          <div class="row" ng-repeat="cat in topNCategories">
+          <div ng-if="topNCategories.length>0" class="row" ng-repeat="cat in topNCategories">
             <div class="col">{{cat.category_name}}</div>
             <div class="col">{{cat.category_price}}</div>
             <div class="col">{{cat.category_date}}</div>
          </div>
+        
+         <div>                
+           <span  ng-show="noTopRecords" style="margin-top:10%;margin-left:30%;color:blue !important;font-size:20px !important;">No Items to display</span>            
+        </div>
     </ion-content>
 </ion-view>

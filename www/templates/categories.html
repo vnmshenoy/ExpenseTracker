@@ -9,14 +9,14 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
  </ion-nav-buttons>
 </ion-nav-bar>
-    <ion-content style="top:70px !important">
+    <ion-content>
         <ion-list ng-if="categories.length>0">
             <ion-item ng-repeat="category in categories" href="#/lists/{{category.id}}">                
                 <span> {{category.category_id}} {{category.category_name}} </span>
             </ion-item>
         </ion-list>
          <div>                
-                <span  ng-show="noCatRecords" style="margin-left:45px;color:blue !important;font-size:20px !important;">You haven't added any Category yet. Let's start by clicking "Add" on top</span>            
+                <span  ng-show="noCatRecords" style="margin-left:45px;display:none;color:blue !important;font-size:20px !important;">You haven't added any Category yet. Let's start by clicking "Add" on top</span>            
         </div>
     </ion-content>
 </ion-view>
