@@ -9,8 +9,7 @@ expenseTracker.controller("ViewImagesController", function($scope,
         $scope.id =$stateParams.id;;
         if((imgs != undefined) && (imgs != null) )
           {
-            var a = imgs.split('~,');
-            
+            var a = imgs.split('~,');            
             for(var i =0;i<a.length;i++)
                  {
                      if(a[i].length>0)
