@@ -10,9 +10,11 @@ expenseTracker.controller("ViewImagesController", function($scope,
         if((imgs != undefined) && (imgs != null) )
           {
             var a = imgs.split('~,');
+            
             for(var i =0;i<a.length;i++)
                  {
-                    $scope.im.push(a[i]);
+                     if(a[i].length>0)
+                        $scope.im.push(a[i]);
                  }
           }
     });
