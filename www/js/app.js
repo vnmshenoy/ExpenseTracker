@@ -58,6 +58,12 @@ expenseTracker.config(function ($stateProvider, $urlRouterProvider) {
             url: '/overview',
             templateUrl: 'templates/overview.html',
             controller: 'OverviewController'
+        })
+    
+          .state('aboutus', {
+            url: '/aboutus',
+            templateUrl: 'templates/aboutUs.html',
+            controller: 'AboutUsController'
         });
     $urlRouterProvider.otherwise('/config');
 });
