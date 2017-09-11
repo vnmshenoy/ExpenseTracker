@@ -199,7 +199,7 @@ expenseTracker.controller("ListController",
         return true;
       }
       try {
-        var regex = /^\d+$/;
+        var regex = /^[\d.]+$/;
         if (!regex.test(val)) //if val  is number then it will be true
         {
           return true;//means "val" is invalid.

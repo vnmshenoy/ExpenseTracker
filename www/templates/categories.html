@@ -11,8 +11,11 @@
 </ion-nav-bar>
     <ion-content>
         <ion-list ng-if="categories.length>0">
-            <ion-item ng-repeat="category in categories" href="#/lists/{{category.id}}">                
-                <span> {{category.category_id}} {{category.category_name}} </span>
+            <ion-item ng-repeat="category in categories">      
+                <div  class="row">
+                    <div class="col"><a href="#/lists/{{category.id}}">{{category.category_id}} {{category.category_name}}</a></div>
+                    <div class="col"><a ng-click="editRecord('{{category.category_id}}','{{category.category_name}}')">Edit</a></div>
+                </div>
             </ion-item>
         </ion-list>
          <div>                
