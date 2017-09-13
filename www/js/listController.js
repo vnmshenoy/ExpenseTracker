@@ -4,8 +4,8 @@ expenseTracker.controller("ListController",
     $ionicPlatform.ready(function () {
       $ionicLoading.hide();
       $scope.count = 1;
-      var spent=0;
-      $scope.spent=0;
+      var spent=0.0;
+      $scope.spent=0.0;
       $scope.noRecords=true;//flag is used when no records/lists are there for category. if new or 0 records then hasRecords =false;
       var localStorageVal = parseInt($window.localStorage.getItem("count"));
       if (db == null) {
@@ -53,7 +53,7 @@ expenseTracker.controller("ListController",
         if (res.rows.length > 0) {
           for (var i = 0; i < res.rows.length; i++) {
               resRowsLoad=res.rows.item(i);
-              spent+=parseInt(resRowsLoad.category_item_price);
+              spent+=parseFloat(resRowsLoad.category_item_price);
                $scope.spent =spent;
              $scope.lists.push({
               id: resRowsLoad.id, category_id:resRowsLoad.category_id, category_item_id:resRowsLoad.category_item_id, category_item_name: resRowsLoad.category_item_name,
@@ -125,7 +125,7 @@ expenseTracker.controller("ListController",
                
               var query = "INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date) VALUES (?,?,?,?,?,?)";
               $cordovaSQLite.execute(db, query, [$stateParams.categoryId, cat_item_id, dd.CategoryItemName, dd.CategoryItemPrice, dd.CategoryItemUnit, date]).then(function (res) {
-                  $scope.spent+=parseInt(dd.CategoryItemPrice, 10);
+                $scope.spent+=parseFloat(dd.CategoryItemPrice, 10);
                 $scope.lists.push({ id: res.insertId, category_id: $stateParams.categoryId, category_item_id: cat_item_id, category_item_name: $scope.data.CategoryItemName, category_item_price: parseInt(dd.CategoryItemPrice, 10), category_item_unit: dd.CategoryItemUnit, category_item_date: date });
                   $scope.noRecords=false;
               }, function (err) {
