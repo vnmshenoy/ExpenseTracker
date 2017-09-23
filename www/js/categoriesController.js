@@ -12,9 +12,16 @@ expenseTracker.controller("CategoriesController", function ($scope,
             });
         }
         $scope.infoMessage=false;
-         
+        $scope.noOfDays=0;
         $scope.noCatRecords = true; //flag is used to track categories. If no categories, then hasRecords is false.
-        var query = "SELECT id,category_Id, category_name FROM tblCategories";
+      //  if( $scope.noOfDays == 0)
+            var query = "SELECT id,category_Id, category_name FROM tblCategories";
+      /*  else
+            {
+                var d="-"+$scope.noOfDays+"days";
+                alert(d);
+                var query = "SELECT id,category_Id, category_name FROM tblCategories WHERE date BETWEEN datetime('now', "+d+")";
+            }*/
         $cordovaSQLite.execute(db, query, []).then(function (res) {
             if (res.rows.length > 0) {
                 $scope.noCatRecords = false;

@@ -9,7 +9,9 @@ expenseTracker.controller("TopNCategoriesController", function($scope,
            if(res.rows.length > 0) {
                $scope.noTopRecords=false;
                  for(var i = 0; i < res.rows.length; i++) {
-                 $scope.topNCategories.push({category_name: res.rows.item(i).category_item_name,category_price: res.rows.item(i).category_item_price,category_date:res.rows.item(i).category_item_date});
+                 $scope.topNCategories.push({category_name: res.rows.item(i).category_item_name,
+                                             category_price: res.rows.item(i).category_item_price,
+                                             category_date:res.rows.item(i).category_item_date});
                }
           }
 

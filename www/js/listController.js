@@ -4,6 +4,7 @@ expenseTracker.controller("ListController",
     $ionicPlatform.ready(function () {
       $ionicLoading.hide();
       $scope.count = 1;
+      var noOfDays=[$stateParams.noOfDays];
       var spent=0.0;
       $scope.spent=0.0;
       $scope.noRecords=true;//flag is used when no records/lists are there for category. if new or 0 records then hasRecords =false;
@@ -22,8 +23,15 @@ expenseTracker.controller("ListController",
           i = localStorageVal;
 
         $window.localStorage.setItem("count", JSON.stringify(i));
+            if(noOfDays == 0){
         var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
           " where category_id = ? LIMIT " + i;
+            }
+          else{
+                var d="-"+noOfDays+"days";
+                var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
+          " where  category_item_date between datetime('now', '4days') and category_id = ? LIMIT " + i;
+          }
 
         $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function (res) {
           if (res.rows.length > 0) {
@@ -46,8 +54,15 @@ expenseTracker.controller("ListController",
       if (localStorageVal == 0) {
         localStorageVal = 10;
       }
-      var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
+         if( noOfDays == 0){
+                var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
         " where category_id = ? LIMIT " + localStorageVal;
+         }
+        else{
+             var d="-"+noOfDays+"days";
+              var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
+        " where category_item_date > date('now', '-4 days') and category_id = ? LIMIT " + localStorageVal;
+        }
         var resRowsLoad;
       $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function (res) {
         if (res.rows.length > 0) {

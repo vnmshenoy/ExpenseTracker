@@ -17,7 +17,10 @@
 
              <!-- with name set -->
            <label class="item item-input">
-                    <input type="text" placeholder="Set Days" >
+                    <input ng-model="noOfDays"  type="text" placeholder="Set Days" >
+             
+            <p ng-if="showErrorPrice" style="color:red" class="error">Please enter a valid number of days in integer</p>
+
                 </label></div>    <div class="col-xs-6">
             <i ng-click="showInfo()" class="ion-information"></i>      
                          </div>
@@ -35,7 +38,7 @@
                     <div class="col"><a href="#/lists/{{category.id}}">{{category.category_id}} {{category.category_name}}</a></div>
                     <div class="col"><a ng-click="editRecord('{{category.category_id}}','{{category.category_name}}')">Edit</a></div>
                      
-                    <div class="col"><a href="#/lists/{{category.id}}">View Items</a></div>
+                    <div class="col"><a href="#/lists/{{category.id}}/{{noOfDays}}">View Items</a></div>
                 </div>
             </ion-item>
         </ion-list>
