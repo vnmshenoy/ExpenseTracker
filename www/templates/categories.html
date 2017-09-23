@@ -1,4 +1,6 @@
 
+
+
 <!--<ion-view title='<img class="title-image" src="img/expLogo.png" />'>-->
 <ion-view title='<img class="title-image" src="img/exTracker.png" />'>
   <ion-nav-bar>
@@ -10,11 +12,29 @@
  </ion-nav-buttons>
 </ion-nav-bar>
     <ion-content>
+        <div  class="row">
+                                        <div class="col-xs-6">
+
+             <!-- with name set -->
+           <label class="item item-input">
+                    <input type="text" placeholder="Set Days" >
+                </label></div>    <div class="col-xs-6">
+            <i ng-click="showInfo()" class="ion-information"></i>      
+                         </div>
+
+        </div>
+        
+        <div class="row">
+          <div class="col-xs-12">
+           <div ng-show="infoMessage"> <h4 style="color:#EA9523;">View History for past number of days set above.Default is all</h4></div> 
+            </div>
+        </div>
         <ion-list ng-if="categories.length>0">
-            <ion-item ng-repeat="category in categories">      
+            <ion-item style="padding:0px !important; border:0px !important" ng-repeat="category in categories">      
                 <div  class="row">
                     <div class="col"><a href="#/lists/{{category.id}}">{{category.category_id}} {{category.category_name}}</a></div>
                     <div class="col"><a ng-click="editRecord('{{category.category_id}}','{{category.category_name}}')">Edit</a></div>
+                     
                     <div class="col"><a href="#/lists/{{category.id}}">View Items</a></div>
                 </div>
             </ion-item>

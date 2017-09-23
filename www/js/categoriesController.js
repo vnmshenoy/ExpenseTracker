@@ -1,7 +1,8 @@
 expenseTracker.controller("CategoriesController", function ($scope,
     $ionicPlatform, $ionicPopup, $ionicLoading, $cordovaSQLite, $stateParams,
-    $ionicSideMenuDelegate, $document, $window, $location) {
+    $ionicSideMenuDelegate, $document, $window, $location,$timeout) {
     $scope.categories = [];
+   
     $ionicPlatform.ready(function () {
         $window.localStorage.setItem("count", 0);
         if (db == null) {
@@ -10,6 +11,8 @@ expenseTracker.controller("CategoriesController", function ($scope,
                 location: 'default'
             });
         }
+        $scope.infoMessage=false;
+         
         $scope.noCatRecords = true; //flag is used to track categories. If no categories, then hasRecords is false.
         var query = "SELECT id,category_Id, category_name FROM tblCategories";
         $cordovaSQLite.execute(db, query, []).then(function (res) {
@@ -32,6 +35,7 @@ expenseTracker.controller("CategoriesController", function ($scope,
 
     });
 
+  
     $scope.navTitle = '<img class="title-image" src="../img/ionic.png" />';
     $scope.insert = function () {
         $ionicPopup.prompt({
@@ -114,5 +118,10 @@ expenseTracker.controller("CategoriesController", function ($scope,
 
             });
     }
-
+    $scope.showInfo=function(){
+         $scope.infoMessage=true;
+          $timeout(function () { $scope.infoMessage=false;
+                                 }, 5000);
+    }
+       
 });
