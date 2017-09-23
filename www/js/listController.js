@@ -59,9 +59,9 @@ expenseTracker.controller("ListController",
         " where category_id = ? LIMIT " + localStorageVal;
          }
         else{
-             var d="-"+noOfDays+"days";
+             var d=noOfDays;
               var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
-        " where category_item_date > date('now', '-4 days') and category_id = ? LIMIT " + localStorageVal;
+        " where category_item_date > date('now', '-"+d+" days') and category_id = ? LIMIT " + localStorageVal;
         }
         var resRowsLoad;
       $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function (res) {
