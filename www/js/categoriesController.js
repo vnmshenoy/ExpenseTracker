@@ -1,10 +1,8 @@
 expenseTracker.controller("CategoriesController", function ($scope,
     $ionicPlatform, $ionicPopup, $ionicLoading, $cordovaSQLite, $stateParams,
-    $ionicSideMenuDelegate, $document, $window, $location,$timeout) {
+    $ionicSideMenuDelegate, $document, $window, $location, $timeout) {
     $scope.categories = [];
-   
     var days = $scope.noOfDays;
-
     $ionicPlatform.ready(function () {
         $window.localStorage.setItem("count", 0);
         if (db == null) {
@@ -13,17 +11,9 @@ expenseTracker.controller("CategoriesController", function ($scope,
                 location: 'default'
             });
         }
-        $scope.infoMessage=false;
-       // $scope.noOfDays=0;
+        $scope.infoMessage = false;
         $scope.noCatRecords = true; //flag is used to track categories. If no categories, then hasRecords is false.
-      //  if( $scope.noOfDays == 0)
-            var query = "SELECT id,category_Id, category_name FROM tblCategories";
-      /*  else
-            {
-                var d="-"+$scope.noOfDays+"days";
-                alert(d);
-                var query = "SELECT id,category_Id, category_name FROM tblCategories WHERE date BETWEEN datetime('now', "+d+")";
-            }*/
+        var query = "SELECT id,category_Id, category_name FROM tblCategories";
         $cordovaSQLite.execute(db, query, []).then(function (res) {
             if (res.rows.length > 0) {
                 $scope.noCatRecords = false;
@@ -40,15 +30,13 @@ expenseTracker.controller("CategoriesController", function ($scope,
         }, function (err) {
             console.error(err);
         });
-
-
     });
 
-   $scope.validateDaysNow =function(ds){
-        $scope.isDaysInValid=false;
-       $scope.isDaysInValid=isInvalidVal(ds);       
-       $scope.showErrorInDaysEntered=$scope.isDaysInValid;
-   }
+    $scope.validateDaysNow = function (ds) {
+        $scope.isDaysInValid = false;
+        $scope.isDaysInValid = isInvalidVal(ds);
+        $scope.showErrorInDaysEntered = $scope.isDaysInValid;
+    }
     $scope.navTitle = '<img class="title-image" src="../img/ionic.png" />';
     $scope.insert = function () {
         $ionicPopup.prompt({
@@ -107,12 +95,12 @@ expenseTracker.controller("CategoriesController", function ($scope,
                     {
                         text: '<b>Save</b>',
                         type: 'button-positive',
-                         onTap: function (e) {
-                 
-                                    }                      
+                        onTap: function (e) {
+
+                        }
                     }
                 ]
-            
+
             })
             .then(function (result) { //http://stackoverflow.com/questions/5233050/how-to-refresh-a-page-with-jquery-by-passing-a-parameter-to-url 
 
@@ -131,29 +119,28 @@ expenseTracker.controller("CategoriesController", function ($scope,
 
             });
     }
-    $scope.showInfo=function(){
-         $scope.infoMessage=true;
-          $timeout(function () { $scope.infoMessage=false;
-                                 }, 6500);
+    $scope.showInfo = function () {
+        $scope.infoMessage = true;
+        $timeout(function () {
+            $scope.infoMessage = false;
+        }, 6500);
     }
-    
- function isInvalidVal(val) {
-      if (!val) {
-        return true;
-      }
-      try {
-        var regex = /^[\d.]+$/;
-        if (!regex.test(val)) //if val  is number then it will be true
-        {
-          return true;//means "val" is invalid.
+
+    function isInvalidVal(val) {
+        if (!val) {
+            return true;
         }
-        else {
-          return false;//means val is valid
+        try {
+            var regex = /^[\d.]+$/;
+            if (!regex.test(val)) //if val  is number then it will be true
+            {
+                return true; //means "val" is invalid.
+            } else {
+                return false; //means val is valid
+            }
+        } catch (e) {
+            return true;
         }
-      }
-      catch (e) {
-        return true;
-      }
     }
-       
+
 });
