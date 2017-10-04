@@ -128,7 +128,7 @@ expenseTracker.controller("CategoriesController", function ($scope,
 
     function isInvalidVal(val) {
         if (!val) {
-            return true;
+            return false;
         }
         try {
             var regex = /^[\d.]+$/;
