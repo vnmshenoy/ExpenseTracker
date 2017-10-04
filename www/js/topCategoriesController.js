@@ -35,7 +35,7 @@ expenseTracker.controller("TopCategoriesController", function ($scope,
         $cordovaSQLite.execute(db, query, [itemClicked.toString()]).then(function (res) {
             if (res.rows.length > 0) {                
                 var cat_id = res.rows.item(0).category_id;
-                $location.path('/lists/' + cat_id);
+                $location.path('/lists/' + cat_id+'/180');//180 because 6 months selected
                 //   $state.go("#/lists/0");
 
             }
