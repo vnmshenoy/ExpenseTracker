@@ -22,10 +22,11 @@
 
         <div class="row">
             <div class="col-xs-12">
+                  <p ng-if="showErrorInDaysEntered" style="color:red" class="error">Please enter a number or leave it blank.</p>
                 <div ng-show="infoMessage">
                     <h4 style="color:#EA9523;">Set Number of days to view history for a particular period.For eg, if you enter 30, then past 30 days records are shown. Setting days is applicable across for all categories. Leave it blank and you will get all records for the selected category.</h4>
                 </div>
-                <p ng-if="showErrorInDaysEntered" style="color:red" class="error">Please enter a number or leave it blank.</p>
+              
 
             </div>
         </div>
