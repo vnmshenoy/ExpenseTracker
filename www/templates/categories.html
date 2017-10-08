@@ -33,7 +33,7 @@
         <ion-list ng-if="categories.length>0">
             <ion-item style="padding:0px !important; border:0px !important" ng-repeat="category in categories">
                 <div class="row">
-                    <div class="col"><a href="#/lists/{{category.id}}">{{category.category_id}} {{category.category_name}}</a></div>
+                    <div class="col"><a href="#/lists/{{category.id}}/{{noOfDays}}">{{category.category_id}} {{category.category_name}}</a></div>
                     <div class="col"><a ng-click="editRecord('{{category.category_id}}','{{category.category_name}}')">Edit</a></div>
 
                     <div class="col"><a ng-class="{disabled: showErrorInDaysEntered}" href="#/lists/{{category.id}}/{{noOfDays}}">View Items</a></div>
