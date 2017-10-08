@@ -22,10 +22,9 @@ expenseTracker.controller("OverviewController", function ($scope,
     });
   });
 
- /* $scope.toggleLeft = function () {
-    $ionicSideMenuDelegate.toggleLeft();
-  }*/
-
+$scope.topThree = function () {
+     $location.path('/topCategories');
+}
   $scope.showTopTenAcrossCat = function () {
     $scope.data = {};
     $ionicPopup.show({
