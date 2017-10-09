@@ -19,7 +19,7 @@ expenseTracker.controller("ListController",
                 $scope.lists = [];
                 var i = 0;
                 var resRows;
-
+                spent =0;              
                 $scope.count++;
                 i = 10 * $scope.count;
                 if (localStorageVal > i)
@@ -39,7 +39,8 @@ expenseTracker.controller("ListController",
                     if (res.rows.length > 0) {
                         for (var i = 0; i < res.rows.length; i++) {
                             resRows = res.rows.item(i);
-
+                                  spent += parseFloat(resRowsLoad.category_item_price);
+                                    $scope.spent = spent;
                             $scope.lists.push({
                                 id: resRows.id,
                                 category_id: resRows.category_id,
