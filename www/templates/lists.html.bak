@@ -7,7 +7,9 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
  </ion-nav-buttons>
 </ion-nav-bar>
+    
     <ion-content>
+<!--    <ion-content  on-swipe-down="doRefresh()">-->
       <ion-refresher
            pulling-text="Pull to refresh..."
            on-refresh="doRefresh()">
@@ -18,6 +20,8 @@
         </ion-header-bar>
       <!-- <table> -->
     <!--  http://codepen.io/anon/pen/VKdBJd-->
+        
+      
           <div ng-if="lists.length>0" class="row header">
            <div class="col">Item Name</div>
             <div  class="col">Price</div>
@@ -41,6 +45,12 @@
          <div>                
                 <span ng-show="noRecords" style="margin-left:45px;color:blue !important;font-size:20px !important;">You haven't added any item to the category yet. Let's start by clicking "Add" on top</span>            
         </div>
+        
+        
+          <!--<ion-infinite-scroll
+    ng-if="!noMoreItemsAvailable" on-infinite="doRefresh()"
+    distance="1%">
+  </ion-infinite-scroll>-->
     </ion-content>
 </ion-view>
 
