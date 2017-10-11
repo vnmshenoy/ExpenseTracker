@@ -39,8 +39,8 @@ expenseTracker.controller("ListController",
                     if (res.rows.length > 0) {
                         for (var i = 0; i < res.rows.length; i++) {
                             resRows = res.rows.item(i);
-                                  spent += parseFloat(resRowsLoad.category_item_price);
-                                    $scope.spent = spent;
+                                  spent += parseFloat(resRows.category_item_price);
+                                  $scope.spent = spent;
                             $scope.lists.push({
                                 id: resRows.id,
                                 category_id: resRows.category_id,
