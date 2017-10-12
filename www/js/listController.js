@@ -40,7 +40,8 @@ expenseTracker.controller("ListController",
                         for (var i = 0; i < res.rows.length; i++) {
                             resRows = res.rows.item(i);
                                   spent += parseFloat(resRows.category_item_price);
-                                  $scope.spent = spent;
+                           
+                                  $scope.spent = spent.toFixed(2);
                             $scope.lists.push({
                                 id: resRows.id,
                                 category_id: resRows.category_id,
@@ -163,7 +164,8 @@ expenseTracker.controller("ListController",
                                     category_id: $stateParams.categoryId,
                                     category_item_id: cat_item_id,
                                     category_item_name: $scope.data.CategoryItemName,
-                                    category_item_price: parseInt(dd.CategoryItemPrice, 10),
+                                    //category_item_price: parseInt(dd.CategoryItemPrice, 10),
+                                    category_item_price: parseFloat((dd.CategoryItemPrice).toFixed(2),10),
                                     category_item_unit: dd.CategoryItemUnit,
                                     category_item_date: date
                                 });
