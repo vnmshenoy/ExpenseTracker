@@ -77,7 +77,7 @@ expenseTracker.controller("ListController",
                     for (var i = 0; i < res.rows.length; i++) {
                         resRowsLoad = res.rows.item(i);
                         spent += parseFloat(resRowsLoad.category_item_price);
-                        $scope.spent = spent;
+                        $scope.spent = spent.toFixed(2);
                         $scope.lists.push({
                             id: resRowsLoad.id,
                             category_id: resRowsLoad.category_id,
@@ -158,14 +158,17 @@ expenseTracker.controller("ListController",
 
                             var query = "INSERT INTO tblCategoryItems (category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date) VALUES (?,?,?,?,?,?)";
                             $cordovaSQLite.execute(db, query, [$stateParams.categoryId, cat_item_id, dd.CategoryItemName, dd.CategoryItemPrice, dd.CategoryItemUnit, date]).then(function (res) {
-                                $scope.spent += parseFloat(dd.CategoryItemPrice, 10);
+                               // $scope.spent += parseFloat(dd.CategoryItemPrice);                           
+                              //    $scope.spent =  $scope.spent.toFixed(2);
+                                $scope.spent =  parseFloat($scope.spent)+parseFloat(dd.CategoryItemPrice);
+                                $scope.spent =  ($scope.spent).toFixed(2);
                                 $scope.lists.push({
                                     id: res.insertId,
                                     category_id: $stateParams.categoryId,
                                     category_item_id: cat_item_id,
                                     category_item_name: $scope.data.CategoryItemName,
                                     //category_item_price: parseInt(dd.CategoryItemPrice, 10),
-                                    category_item_price: parseFloat((dd.CategoryItemPrice).toFixed(2),10),
+                                    category_item_price: parseFloat(dd.CategoryItemPrice).toFixed(2), 
                                     category_item_unit: dd.CategoryItemUnit,
                                     category_item_date: date
                                 });
@@ -187,7 +190,7 @@ expenseTracker.controller("ListController",
             $scope.data = {};
             $scope.data.CategoryItemName = name;
             $scope.data.category_item_id = idOfItem;
-            $scope.data.CategoryItemPrice = price;
+            $scope.data.CategoryItemPrice = parseFloat((price).toFixed(2),10);
             $scope.data.CategoryItemUnit = unit;
             $scope.data.CategoryItemDate = new Date(date);
             $scope.showError = false;
