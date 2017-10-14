@@ -31,7 +31,7 @@ expenseTracker.controller("ListController",
                     var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
                         " where category_id = ? LIMIT " + i;
                 } else {
-                    var d = "-" + noOfDays + "days";                                     
+                    var d = "-" + noOfDays + " days";                                     
                     var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
                     " where  category_item_date between datetime('now', '"+d+"') AND datetime('now', 'localtime') and category_id = ?";
                 }
