@@ -8,7 +8,8 @@ expenseTracker.controller("ListController",
             var spent = 0.0;
             $scope.spent = 0.0;
             $scope.noRecords = true; //flag is used when no records/lists are there for category. if new or 0 records then hasRecords =false;
-            var localStorageVal = parseInt($window.localStorage.getItem("count"));
+           // var localStorageVal = parseInt($window.localStorage.getItem("count"));
+            var localStorageVal = 0;
             if (db == null) {
                 db = $cordovaSQLite.openDB({
                     name: 'populated2.db',
@@ -30,17 +31,16 @@ expenseTracker.controller("ListController",
                     var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
                         " where category_id = ? LIMIT " + i;
                 } else {
-                    var d = "-" + noOfDays + "days";
+                    var d = "-" + noOfDays + "days";                                     
                     var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
-                        " where  category_item_date between datetime('now', '4days') and category_id = ? LIMIT " + i;
+                    " where  category_item_date between datetime('now', '"+d+"') AND datetime('now', 'localtime') and category_id = ?";
                 }
 
                 $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function (res) {
                     if (res.rows.length > 0) {
                         for (var i = 0; i < res.rows.length; i++) {
                             resRows = res.rows.item(i);
-                                  spent += parseFloat(resRows.category_item_price);
-                           
+                                  spent += parseFloat(resRows.category_item_price);                           
                                   $scope.spent = spent.toFixed(2);
                             $scope.lists.push({
                                 id: resRows.id,

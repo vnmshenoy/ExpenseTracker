@@ -8,13 +8,8 @@
  </ion-nav-buttons>
 </ion-nav-bar>
     <ion-content>
-       <span ng-if="topNCategories.length>0" style="margin-left:15%;color:blue;"><i>Item Top n Across all</i></span>           
-
-    <!--  <ion-refresher
-           pulling-text="Pull to refresh..."
-           on-refresh="doRefresh()">
-        </ion-refresher>-->
-          <div ng-if="topNCategories.length>0" class="row header">
+       <span ng-if="topNCategories.length>0" style="margin-left:15%;color:blue;"><i>Item Top 200 Across All Categories</i></span> 
+        <div ng-if="topNCategories.length>0" class="row header">
            <div class="col">Item Name</div>
             <div class="col">Price</div>
             <div class="col">Date</div>
