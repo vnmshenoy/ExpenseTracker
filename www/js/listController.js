@@ -17,6 +17,11 @@ expenseTracker.controller("ListController",
                 });
             }
             $scope.doRefresh = function () {
+                
+                $ionicLoading.show({
+                    template: 'Loading your records.Please wait....',
+                    showBackdrop: false
+                });
                 $scope.lists = [];
                 var i = 0;
                 var resRows;
@@ -53,10 +58,11 @@ expenseTracker.controller("ListController",
                             });
                         }
                     }
-                    $scope.$broadcast('scroll.refreshComplete');
                 }, function (err) {
                     console.error(err);
                 });
+                 $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
 
             };
             $scope.lists = [];
@@ -243,8 +249,10 @@ expenseTracker.controller("ListController",
                     var dd = $scope.data;
                     var query = "Update tblCategoryItems SET category_item_name = ?,category_item_price=?,category_item_unit = ?,category_item_date=? where category_item_id =?";
                     $cordovaSQLite.execute(db, query, [dd.CategoryItemName, dd.CategoryItemPrice, dd.CategoryItemUnit, dateTime.parseDate(dd.CategoryItemDate), dd.category_item_id]).then(function (res) {
-
-                        $window.location.reload();
+                    $ionicLoading.hide();
+                     $scope.doRefresh();
+                        
+               //    $window.location.reload();
                     }, function (err) {
                         console.error(err);
                     });
