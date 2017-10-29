@@ -17,7 +17,6 @@ expenseTracker.controller("ListController",
                 });
             }
             $scope.doRefresh = function () {
-                
                 $ionicLoading.show({
                     template: 'Loading your records.Please wait....',
                     showBackdrop: false
@@ -34,11 +33,11 @@ expenseTracker.controller("ListController",
                 $window.localStorage.setItem("count", JSON.stringify(i));
                 if (noOfDays == 0) {
                     var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
-                        " where category_id = ? LIMIT " + i;
+                        " where category_id = ? ORDER BY category_item_date DESC LIMIT " + i;
                 } else {
                     var d = "-" + noOfDays + " days";                                     
                     var query = "SELECT category_id,category_item_id, category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
-                    " where  category_item_date between datetime('now', '"+d+"') AND datetime('now', 'localtime') and category_id = ?";
+                    " where  category_item_date between datetime('now', '"+d+"') AND datetime('now', 'localtime') and category_id = ? ORDER BY category_item_date DESC";
                 }
 
                 $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function (res) {
@@ -71,11 +70,11 @@ expenseTracker.controller("ListController",
             }
             if (noOfDays == 0) {
                 var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
-                    " where category_id = ? LIMIT " + localStorageVal;
+                    " where category_id = ? ORDER BY category_item_date DESC LIMIT " + localStorageVal;
             } else {
                 var d = noOfDays;
                 var query = "SELECT  category_id, category_item_id,category_item_name,category_item_price,category_item_unit,category_item_date  FROM tblCategoryItems" +
-                    " where category_item_date > date('now', '-" + d + " days') and category_id = ? LIMIT " + localStorageVal;
+                    " where category_item_date > date('now', '-" + d + " days') and category_id = ? ORDER BY category_item_date DESC LIMIT " + localStorageVal;
             }
             var resRowsLoad;
             $cordovaSQLite.execute(db, query, [$stateParams.categoryId]).then(function (res) {
@@ -153,7 +152,7 @@ expenseTracker.controller("ListController",
                     if (result !== undefined) {
                         var dd = $scope.data;
                         var date = dateTime.parseDate(dd.CategoryItemDate);
-                        var query = "select * from  tblCategoryItems ORDER BY category_item_id DESC LIMIT 1";
+                        var query = "select * from  tblCategoryItems ORDER BY category_item_date DESC LIMIT 1";
                         $cordovaSQLite.execute(db, query, []).then(function (res) {
                             if (res.rows.length <= 0 && res.rows.category_item_id === undefined) {
                                 cat_item_id = 0;
@@ -179,6 +178,8 @@ expenseTracker.controller("ListController",
                                     category_item_date: date
                                 });
                                 $scope.noRecords = false;
+                                $scope.doRefresh();
+
                             }, function (err) {
                                 console.error(err);
                             });
