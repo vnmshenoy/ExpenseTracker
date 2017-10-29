@@ -1,31 +1,29 @@
 <ion-view title='<img style="margin-left:30%;" class="title-image" src="img/exTracker.png" />'>
-  <ion-nav-bar>
-
-  <ion-nav-buttons side="right">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
- </ion-nav-buttons>
-</ion-nav-bar>
+    <ion-nav-bar>
+        <ion-nav-buttons side="right">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content>
-          <span style="margin-left:30%;"><i>Item History</i></span>
-          <div class="row header">
-           <div class="col">Item Name</div>
+        <span style="margin-left:30%;"><i>Item History</i></span>
+        <div class="row header">
+            <div class="col">Item Name</div>
             <div class="col">Price</div>
             <div class="col">Unit</div>
             <div class="col">month</div>
             <div class="col">YEAR</div>
-          </div>
+        </div>
 
-          <div class="row" ng-repeat="item in itemDetails">
+        <div class="row" ng-repeat="item in itemDetails">
             <div class="col">{{item.name}}</div>
             <div style="background-color:#F5A30D;" class="col">{{item.cost}}</div>
             <div class="col">{{item.unit}}</div>
             <div class="col">{{item.month}}</div>
             <div class="col">{{item.year}}</div>
-         </div>
-         <div class="row">
-         <canvas id="bar" class="chart chart-bar" chart-data="data"
-             chart-labels="labels">
+        </div>
+        <div class="row">
+            <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels">
          </canvas>
-       </div>
+        </div>
     </ion-content>
 </ion-view>

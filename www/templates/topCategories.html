@@ -1,17 +1,14 @@
 <ion-view title='<img style="margin-left:30%;" class="title-image" src="img/exTracker.png" />'>
-  <ion-nav-bar>
-
-  <ion-nav-buttons side="right">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
- </ion-nav-buttons>
-</ion-nav-bar>
+    <ion-nav-bar>
+        <ion-nav-buttons side="right">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content>
-    <span style="margin-left:30%;"><i>Top Categories</i></span>
-         <div class="row">
-           <canvas id="pie" class="chart chart-pie"
-    chart-data="topLablesData" chart-labels="topLables" chart-click="getDetails" chart-options="topLablesOptions">
+        <span style="margin-left:30%;"><i>Top Categories</i></span>
+        <div class="row">
+            <canvas id="pie" class="chart chart-pie" chart-data="topLablesData" chart-labels="topLables" chart-click="getDetails" chart-options="topLablesOptions">
         </canvas>
-       </div >
-        
+        </div>
     </ion-content>
 </ion-view>

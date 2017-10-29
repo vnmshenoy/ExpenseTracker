@@ -1,27 +1,26 @@
 <ion-view title='<img class="title-image" src="img/exTracker.png" />'>
-  <ion-nav-bar>
-  <ion-nav-buttons side="center">
-      <button class="right button button-icon icon ion-plus" ng-click="insert()">Click</button>
-  </ion-nav-buttons>
-  <ion-nav-buttons side="right">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
- </ion-nav-buttons>
-</ion-nav-bar>
+    <ion-nav-bar>
+        <ion-nav-buttons side="center">
+            <button class="right button button-icon icon ion-plus" ng-click="insert()">Click</button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
     <ion-content>
-       <span ng-if="topNCategories.length>0" style="margin-left:15%;color:blue;"><i>Item Top 200 Across All Categories</i></span> 
+        <span ng-if="topNCategories.length>0" style="margin-left:15%;color:blue;"><i>Item Top 200 Across All Categories</i></span>
         <div ng-if="topNCategories.length>0" class="row header">
-           <div class="col">Item Name</div>
+            <div class="col">Item Name</div>
             <div class="col">Price</div>
             <div class="col">Date</div>
-          </div>
-          <div ng-if="topNCategories.length>0" class="row" ng-repeat="cat in topNCategories">
+        </div>
+        <div ng-if="topNCategories.length>0" class="row" ng-repeat="cat in topNCategories">
             <div class="col">{{cat.category_name}}</div>
             <div class="col">{{cat.category_price}}</div>
             <div class="col">{{cat.category_date}}</div>
-         </div>
-        
-         <div>                
-           <span  ng-show="noTopRecords" style="margin-top:10%;margin-left:30%;color:blue !important;font-size:20px !important;">No Items to display</span>            
+        </div>
+        <div>
+            <span ng-show="noTopRecords" style="margin-top:10%;margin-left:30%;color:blue !important;font-size:20px !important;">No Items to display</span>
         </div>
     </ion-content>
 </ion-view>
