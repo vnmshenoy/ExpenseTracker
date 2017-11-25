@@ -73,7 +73,33 @@ expenseTracker.run(function ($ionicPlatform, $cordovaSQLite, $location, $ionicLo
         if (window.StatusBar) {
             StatusBar.styleDefault();
         }
+        
+        if(window.plugins && window.plugins.AdMob) {
+            var admob_key = device.platform == "Android" ? "ca-app-pub-6735430896180354/3830542458" : "ca-app-pub-7957971173858308/3666912163";
+            var admob = window.plugins.AdMob;
+            admob.createBannerView( 
+                {
+                    'publisherId': 'ca-app-pub-6735430896180354/3830542458',
+                    'adSize': admob.AD_SIZE.BANNER,
+                    'bannerAtTop': false
+                }, 
+                function() {
+                    admob.requestAd(
+                        { 'isTesting': false }, 
+                        function() {
+                            admob.showAd(true);
+                        }, 
+                        function() { console.log('failed to request ad'); }
+                    );
+                }, 
+                function() { console.log('failed to create banner view'); }
+            );
+        }
+
 
 
     });
 });
+
+
+  
